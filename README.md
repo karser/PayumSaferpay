@@ -278,11 +278,10 @@ vendor/bin/phpunit
 ```
 
 
-TODO:
+## TODO:
 - Implement separate actions: Authorize, Cancel transaction
 - Improve and add more unit tests
 - config parameters: language, LIABILITY_SHIFT condition, payer note
-- add more docs
 
 
 ## Credits
