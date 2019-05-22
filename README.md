@@ -1,5 +1,10 @@
 # Saferpay Payum Plugin
 
+[![Build Status](https://travis-ci.org/karser/PayumSaferpay.svg?branch=master)](https://travis-ci.org/karser/PayumSaferpay)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/karser/PayumSaferpay/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/karser/PayumSaferpay/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/karser/PayumSaferpay/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/karser/PayumSaferpay/?branch=master)
+[![Total Downloads](https://poser.pugx.org/karser/payum-saferpay/downloads)](https://packagist.org/packages/karser/payum-saferpay)
+
 ## Introduction
 
 This plugin implements [Saferpay specification v1.10](https://saferpay.github.io/jsonapi/index.html), including all features from e-commerce and business licenses.
@@ -199,7 +204,7 @@ $reply = $this->gateway->execute($captureRequest, true);
 
 ```
 
-2. capture a new transaction a reference to the previous one:
+2. capture a new transaction by providing a reference to the previous one:
 ```php
 $refTransactionId = $payment->getDetails()['Transaction']['Id'];
 
@@ -245,7 +250,7 @@ $reply = $this->gateway->execute($insertCardAliasRequest, true);
 //then redirect user to $reply->getUrl();
 ```
 
-2. capture a new transaction a reference to the previous one:
+2. capture a new transaction by providing an alias id:
 ```php
 $aliasId = $cardAlias->getDetails()['Alias']['Id'];
 
