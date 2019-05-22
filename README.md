@@ -9,8 +9,17 @@
 
 This plugin implements [Saferpay specification v1.10](https://saferpay.github.io/jsonapi/index.html), including all features from e-commerce and business licenses.
 Saferpay e-commerce license provides access to Payment Page interface only.
-Saferpay Business license provides Transaction Interface, recurring transactions, storing cards aliases and etc.
+Saferpay Business license provides Transaction Interface, [recurring payments](https://saferpay.github.io/sndbx/recurring.html), storing cards aliases and etc.
 For more detailed comparison please refer to [this](https://saferpay.github.io/sndbx/Interfaces.html) page.
+
+Transaction Interface provides two options: an iframe (similar to Payment Page) and submitting the card data
+directly. The last option is available only if you are PCI compliant.
+
+Here is how Payment Page interface looks like:
+![](docs/payment-page-interface.png)
+
+Here is how Transaction interface looks like:
+![](docs/transaction-interface.png)
 
 ## Requirements
 
@@ -22,13 +31,12 @@ For more detailed comparison please refer to [this](https://saferpay.github.io/s
 
 This plugin supports
 
-- Payment Page interface
-- Transaction interface
-- Recurring transactions, using referenced transactions (both Recurring and Installment options)
-- Adding and removing aliases
-- Capture transaction using aliases
-- Recurring transactions using aliases
-- Specifying LIABILITY_SHIFT condition (transaction will not be accepted if LiabilityShift is not possible)
+- [Payment Page interface](https://saferpay.github.io/sndbx/Integration_PP.html)
+- [Transaction interface](https://saferpay.github.io/sndbx/Integration_trx.html)
+- Recurring Payments [with the referenced transactions Method](https://saferpay.github.io/sndbx/recurring.html#recurring-referenced)
+- Recurring Payments [using an alias](https://saferpay.github.io/sndbx/recurring.html#recurring-alias)
+- Aliases support: Add and remove, Capture transaction
+- Specifying LIABILITY_SHIFT condition (payment will not be accepted if LiabilityShift is not possible)
 - Handling payment notification for Payment Page interface
 
 All features are covered with tests. You can find useful examples in functional tests.
@@ -72,6 +80,7 @@ payum:
             customerId: '401860'
             terminalId: '17795278'
             sandbox: true
+            iframeCssUrl: 'https://acme.com/hosted-page-styles.css'
 ```
 
 ### With Payum
@@ -182,9 +191,9 @@ $this->gateway->execute($status = new GetHumanStatus($payment));
 //status of the payment is in $status->getValue()
 ```
 
-### Recurring payments using referenced transactions
+### Recurring Payments with the referenced transactions Method
 
-1. capture payment with Recurring or Installment option:
+1. Capture payment with Recurring or Installment option:
 
 ```php
 use Karser\PayumSaferpay\Constants;
@@ -204,7 +213,7 @@ $reply = $this->gateway->execute($captureRequest, true);
 
 ```
 
-2. capture a new transaction by providing a reference to the previous one:
+2. Capture a new transaction by providing a reference to the previous one:
 ```php
 $refTransactionId = $payment->getDetails()['Transaction']['Id'];
 
@@ -222,9 +231,9 @@ $captureRequest->setModel($payment);
 $this->gateway->execute($captureRequest);
 ```
 
-### Recurring payments using aliases
+### Recurring Payments using an alias
 
-1. Add an alias:
+1. Obtaining the Alias:
 The user will have to enter their card details in an iframe.
 
 ```php
@@ -250,7 +259,7 @@ $reply = $this->gateway->execute($insertCardAliasRequest, true);
 //then redirect user to $reply->getUrl();
 ```
 
-2. capture a new transaction by providing an alias id:
+2. Capture a new transaction by providing an alias id:
 ```php
 $aliasId = $cardAlias->getDetails()['Alias']['Id'];
 
@@ -289,5 +298,5 @@ vendor/bin/phpunit
 
 ## License
 
-This bundle is under the MIT license.  
+This plugin is under the MIT license.  
 For the whole copyright, see the [LICENSE](LICENSE) file distributed with this source code.
