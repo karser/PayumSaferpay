@@ -1,0 +1,36 @@
+{
+    "name": "karser/payum-saferpay",
+    "type": "library",
+    "description": "Saferpay Payum plugin providing Ecommerce and Business features",
+    "keywords": [
+        "payum",
+        "saferpay",
+        "six-payment",
+        "payment",
+        "recurring payment",
+        "ecommerce",
+        "ipn",
+        "instant payment notification"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitrii Poddubnyi",
+            "homepage": "https://github.com/karser"
+        }
+    ],
+    "require": {
+        "php": "^7.2.0",
+        "payum/core": "^1.5",
+        "php-http/guzzle6-adapter": "^1.0"
+    },
+    "require-dev": {
+        "fabpot/goutte": "^3.2",
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Karser\\PayumSaferpay\\": ""
+        }
+    }
+}
