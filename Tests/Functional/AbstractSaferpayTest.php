@@ -23,6 +23,7 @@ use Payum\Core\Storage\FilesystemStorage;
 use Payum\Core\Storage\StorageInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\BrowserKit\Exception\BadMethodCallException;
+use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Crawler;
 
 abstract class AbstractSaferpayTest extends TestCase
@@ -173,8 +174,9 @@ abstract class AbstractSaferpayTest extends TestCase
             } else {
                 $this->client->submitForm('SubmitToNext', $formData);
             }
+            /** @var Response $response */
             $response = $this->client->getResponse();
-            if ($response->getStatus() === 302) {
+            if ($response->getStatusCode() === 302) {
                 $location = $response->getHeader('Location');
                 if (0 === strpos($location, self::HOST)) {
                     return $location;
@@ -184,28 +186,28 @@ abstract class AbstractSaferpayTest extends TestCase
         }
 
         if (false !== strpos($this->client->getCrawler()->getUri(), '/VT2/mpp/PaymentDataEntry/Index')) {
-            self::assertSame(200, $this->client->getResponse()->getStatus());
+            self::assertSame(200, $this->client->getResponse()->getStatusCode());
             $this->client->submitForm( $action === 'submit' ? 'Buy' : 'Cancel');
-            self::assertSame(302, $this->client->getResponse()->getStatus());
+            self::assertSame(302, $this->client->getResponse()->getStatusCode());
             $this->client->followRedirect();
         }
         if (
             false !== strpos($this->client->getCrawler()->getUri(), '/VT2/mpp/ThreeDS/Index')
             || false !== strpos($this->client->getCrawler()->getUri(), '/VT2/api/ThreeDs')
         ) {
-            self::assertSame(200, $this->client->getResponse()->getStatus());
+            self::assertSame(200, $this->client->getResponse()->getStatusCode());
             $this->submitForm('[type="submit"]');
-            self::assertSame(200, $this->client->getResponse()->getStatus());
+            self::assertSame(200, $this->client->getResponse()->getStatusCode());
 
             $this->client->submitForm($action === 'submit' ? 'Submit' : 'Cancel');
-            self::assertSame(200, $this->client->getResponse()->getStatus());
+            self::assertSame(200, $this->client->getResponse()->getStatusCode());
 
             $this->client->submitForm('Submit');
-            self::assertSame(200, $this->client->getResponse()->getStatus());
+            self::assertSame(200, $this->client->getResponse()->getStatusCode());
             $this->clickLink('a.btn-next');
 
             $response = $this->client->getResponse();
-            self::assertSame(302, $response->getStatus());
+            self::assertSame(302, $response->getStatusCode());
             $location = $response->getHeader('Location');
             if (0 === strpos($location, self::HOST)) {
                 return $location;
@@ -216,7 +218,7 @@ abstract class AbstractSaferpayTest extends TestCase
             $this->client->submitForm('Cancel');
 
             $response = $this->client->getResponse();
-            self::assertSame(302, $response->getStatus());
+            self::assertSame(302, $response->getStatusCode());
             $location = $response->getHeader('Location');
             if (0 === strpos($location, self::HOST)) {
                 return $location;
