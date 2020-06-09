@@ -2,6 +2,7 @@
 
 namespace Karser\PayumSaferpay\Action;
 
+use Karser\PayumSaferpay\Api;
 use Karser\PayumSaferpay\Constants;
 use Karser\PayumSaferpay\Request\Api\AssertPaymentPage;
 use Karser\PayumSaferpay\Request\Api\AuthorizeTransaction;
@@ -11,6 +12,8 @@ use Karser\PayumSaferpay\Request\Api\InitTransaction;
 use League\Uri\Http as HttpUri;
 use League\Uri\Modifiers\MergeQuery;
 use Payum\Core\Action\ActionInterface;
+use Payum\Core\ApiAwareInterface;
+use Payum\Core\ApiAwareTrait;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\LogicException;
 use Payum\Core\GatewayAwareInterface;
@@ -23,10 +26,21 @@ use Payum\Core\Security\GenericTokenFactoryAwareInterface;
 use Payum\Core\Security\GenericTokenFactoryAwareTrait;
 use Payum\Core\Security\TokenInterface;
 
-final class CaptureAction implements ActionInterface, GatewayAwareInterface, GenericTokenFactoryAwareInterface
+final class CaptureAction implements ActionInterface, ApiAwareInterface, GatewayAwareInterface, GenericTokenFactoryAwareInterface
 {
+    use ApiAwareTrait;
     use GatewayAwareTrait;
     use GenericTokenFactoryAwareTrait;
+
+    /**
+     * @var Api
+     */
+    protected $api;
+
+    public function __construct()
+    {
+        $this->apiClass = Api::class;
+    }
 
     /**
      * @param Capture $request
@@ -37,7 +51,8 @@ final class CaptureAction implements ActionInterface, GatewayAwareInterface, Gen
 
         $model = ArrayObject::ensureArrayObject($request->getModel());
 
-        $interface = $model['Interface'] ?? Constants::INTERFACE_TRANSACTION;
+        $interface = $model['Interface'] ?? $this->api->getCaptureStrategy();
+
         switch ($interface) {
             case Constants::INTERFACE_PAYMENT_PAGE:
                 $this->handlePaymentPageInterface($request);
