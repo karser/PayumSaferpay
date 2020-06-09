@@ -30,7 +30,7 @@ class InitTransactionAction extends BaseApiAwareAction
 
         if (empty($model['Token'])) {
             try {
-                $response = $this->api->initTransaction($model['Payment'], $model['ReturnUrls'], $model['PaymentMeans'] ?? null);
+                $response = $this->api->initTransaction((array) $model);
                 $model->replace(['Transaction' => array_merge($model['Transaction'], ['Status' => Constants::STATUS_PENDING])]);
                 $model['Token'] = $response['Token'];
                 $model['Expiration'] = $response['Expiration'];

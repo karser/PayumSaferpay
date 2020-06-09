@@ -66,6 +66,7 @@ class Api
     }
 
     /**
+     * @param string $path
      * @param array $fields
      *
      * @return array
@@ -109,45 +110,55 @@ class Api
         return json_decode($content, true);
     }
 
-    public function initTransaction(array $payment, array $returnUrls, ?array $paymentMeans): array
+    public function initTransaction(array $model): array
     {
         $payload = [
             'TerminalId' => $this->options['terminalId'],
-            'Payment' => $payment,
-            'Payer' => [
+            'Payment' => $model['Payment'],
+            'Payer' => $model['Payer'] ?? [
                 'LanguageCode' => 'en',
             ],
-            'ReturnUrls' => $returnUrls,
+            'ReturnUrls' => $model['ReturnUrls'],
         ];
+
         if (null !== $this->options['iframeCssUrl']) {
             $payload['Styling'] = [
                 'CssUrl' => $this->options['iframeCssUrl'],
             ];
         }
+
+        $paymentMeans = $model['PaymentMeans'] ?? null;
+
         if (null !== $paymentMeans) {
             $payload['PaymentMeans'] = $paymentMeans;
         }
+
         return $this->doRequest(self::TRANSACTION_INIT_PATH, $payload);
     }
 
-    public function initPaymentPage(array $payment, array $returnUrls, ?array $notification): array
+    public function initPaymentPage(array $model): array
     {
         $payload = [
             'TerminalId' => $this->options['terminalId'],
-            'Payment' => $payment,
-            'Payer' => [
+            'Payment' => $model['Payment'],
+            'Payer' => $model['Payer'] ?? [
                 'LanguageCode' => 'en',
             ],
-            'ReturnUrls' => $returnUrls,
+            'ReturnUrls' => $model['ReturnUrls'],
         ];
+
         if (null !== $this->options['iframeCssUrl']) {
             $payload['Styling'] = [
                 'CssUrl' => $this->options['iframeCssUrl'],
             ];
         }
+
+        $notification = $model['Notification'] ?? null;
+
         if (null !== $notification) {
             $payload['Notification'] = $notification;
         }
+
         return $this->doRequest(self::PAYMENT_PAGE_INIT_PATH, $payload);
     }
 

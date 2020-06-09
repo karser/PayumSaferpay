@@ -281,6 +281,60 @@ $captureRequest->setModel($payment);
 $this->gateway->execute($captureRequest);
 ```
 
+### Change Payload Locale
+
+1. Create a custom extension (If you're using the symfony bundle):
+```yaml
+AppBundle\Extension\ConvertPaymentExtension:
+    autowire: true
+    public: true
+    tags:
+        - { name: payum.extension, alias: saferpay_locale_extension, factory: saferpay, gateway: saferpay, prepend: false }
+```
+
+2. Create service:
+```php
+use Payum\Core\Bridge\Spl\ArrayObject;
+use Payum\Core\Extension\Context;
+use Payum\Core\Extension\ExtensionInterface;
+use Payum\Core\Request\Convert;
+
+class ConvertPaymentExtension implements ExtensionInterface
+{
+    public function onPostExecute(Context $context)
+    {
+        $action = $context->getAction();
+        $previousActionClassName = get_class($action);
+
+        if (false === stripos($previousActionClassName, 'ConvertPaymentAction')) {
+            return;
+        }
+
+        /** @var Convert $request */
+        $request = $context->getRequest();
+        if (false === $request instanceof Convert) {
+            return;
+        }
+        
+        // do your locale logic here
+        $customLocale = 'de';
+
+        $result = ArrayObject::ensureArrayObject($request->getResult());
+
+        $payerData = [];
+        if (isset($result['Payer']) && is_array($result['Payer'])) {
+            $payerData = $result['Payer'];
+        }
+
+        $payerData['LanguageCode'] = $customLocale;
+
+        $result['Payer'] = $payerData;
+
+        $request->setResult((array) $result);
+    }
+}
+
+```
 ## Testing
 
 ```
@@ -289,16 +343,13 @@ vendor/bin/phpunit
 ```
 
 
-## TODO:
+## ToDo
 - Implement separate actions: Authorize, Cancel transaction
 - Improve and add more unit tests
-- config parameters: language, LIABILITY_SHIFT condition, payer note
-
+- config parameters: LIABILITY_SHIFT condition, payer note
 
 ## Credits
 - Dmitrii Poddubnyi <dpoddubny@gmail.com>
 
 ## License
-
-This plugin is under the MIT license.  
-For the whole copyright, see the [LICENSE](LICENSE) file distributed with this source code.
+This plugin is under the MIT license. For the whole copyright, see the [LICENSE](LICENSE) file distributed with this source code.

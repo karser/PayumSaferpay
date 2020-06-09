@@ -43,10 +43,10 @@ class InitTransactionActionTest extends BaseApiActionTest
         $apiMock
             ->expects($this->once())
             ->method('initTransaction')
-            ->willReturnCallback(function (array $payment, array $returnsUrl, ?array $paymentMeans) {
-                $this->assertSame($this->model['Payment'], $payment);
-                $this->assertSame($this->model['ReturnUrls'], $returnsUrl);
-                $this->assertSame(123, $payment['Amount']['Value']);
+            ->willReturnCallback(function (array $model) {
+                $this->assertSame($this->model['Payment'], $model['Payment']);
+                $this->assertSame($this->model['ReturnUrls'], $model['ReturnUrls']);
+                $this->assertSame(123, $model['Payment']['Amount']['Value']);
                 return ['Token' => 'token', 'Expiration' => 'expiration', 'RedirectRequired' => false];
             })
         ;
