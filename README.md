@@ -80,8 +80,9 @@ payum:
             customerId: '401860'
             terminalId: '17795278'
             interface: 'TRANSACTION' #optionally, can be defined via details too
+            optionalParameters: #optionally, add some additional interface options
+                styling_css_url: 'https://acme.com/hosted-page-styles.css'
             sandbox: true
-            iframeCssUrl: 'https://acme.com/hosted-page-styles.css'
 ```
 
 ### With Payum
