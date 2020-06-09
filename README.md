@@ -79,6 +79,7 @@ payum:
             password: 'C-y*bv8346Ze5-T8'
             customerId: '401860'
             terminalId: '17795278'
+            interface: 'TRANSACTION' #optionally, can be defined via details too
             sandbox: true
             iframeCssUrl: 'https://acme.com/hosted-page-styles.css'
 ```
@@ -107,6 +108,7 @@ $payum = (new PayumBuilder())
         'password' => 'C-y*bv8346Ze5-T8',
         'customerId' => '401860',
         'terminalId' => '17795278',
+        'interface' => 'TRANSACTION', #optionally, can be defined via details too
         'sandbox' => true,
     ])
     ->getPayum()
@@ -154,9 +156,9 @@ $payment->setCurrencyCode('USD');
 $payment->setTotalAmount(123); //$1.23 USD
 $payment->setDescription('test payment');
 
-//Capture using TRANSACTION interface (default)
+// capture using TRANSACTION interface (default)
 $payment->setDetails(['Interface' => Constants::INTERFACE_TRANSACTION]);
-//or PAYMENT_PAGE
+// or capture using PAYMENT_PAGE interface
 $payment->setDetails(['Interface' => Constants::INTERFACE_PAYMENT_PAGE]);
 
 $storage->update($payment);
