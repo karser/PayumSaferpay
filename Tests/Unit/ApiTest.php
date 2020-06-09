@@ -81,7 +81,7 @@ class ApiTest extends TestCase
     public function shouldComposeRequestHeader(): void
     {
         $api = new Api($this->options, $this->createSuccessHttpClientStub(), $this->createHttpMessageFactory());
-        $result = $api->initTransaction([], [], []);
+        $result = $api->initTransaction(['Payment' => [], 'ReturnUrls' => []]);
         $this->assertArraySubset([
             'RequestHeader' => [
                 'SpecVersion' => '1.10',
@@ -98,15 +98,19 @@ class ApiTest extends TestCase
     {
         $api = new Api($this->options, $this->createSuccessHttpClientStub(), $this->createHttpMessageFactory());
         $result = $api->initTransaction([
-            'Amount' => [
-                'value' => 123,
-                'CurrencyCode' => 'USD'
+            'Payment'      => [
+                'Amount' => [
+                    'value'        => 123,
+                    'CurrencyCode' => 'USD'
+                ],
             ],
-        ], [
-            'Success' => 'successUrl',
-            'Fail' => 'failUrl',
-        ], [
-            'Alias' => ['Id' => 'aliasId'],
+            'ReturnUrls'   => [
+                'Success' => 'successUrl',
+                'Fail'    => 'failUrl',
+            ],
+            'PaymentMeans' => [
+                'Alias' => ['Id' => 'aliasId'],
+            ]
         ]);
 
         $this->assertArraySubset([
@@ -226,16 +230,21 @@ class ApiTest extends TestCase
     public function shouldComposeInitPaymentPageRequest(): void
     {
         $api = new Api($this->options, $this->createSuccessHttpClientStub(), $this->createHttpMessageFactory());
+
         $result = $api->initPaymentPage([
-            'Amount' => [
-                'value' => 123,
-                'CurrencyCode' => 'USD'
+            'Payment'      => [
+                'Amount' => [
+                    'value'        => 123,
+                    'CurrencyCode' => 'USD'
+                ],
             ],
-        ], [
-            'Success' => 'successUrl',
-            'Fail' => 'failUrl',
-        ], [
-            'NotifyUrl' => 'notifyUrl',
+            'ReturnUrls'   => [
+                'Success' => 'successUrl',
+                'Fail'    => 'failUrl',
+            ],
+            'Notification' => [
+                'NotifyUrl' => 'notifyUrl',
+            ]
         ]);
 
         $this->assertArraySubset([

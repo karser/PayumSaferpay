@@ -30,7 +30,7 @@ class InitPaymentPageAction extends BaseApiAwareAction
 
         if (empty($model['Token'])) {
             try {
-                $response = $this->api->initPaymentPage($model['Payment'], $model['ReturnUrls'], $model['Notification'] ?? null);
+                $response = $this->api->initPaymentPage((array) $model);
                 $model->replace(['Transaction' => array_merge($model['Transaction'], ['Status' => Constants::STATUS_PENDING])]);
                 $model['Token'] = $response['Token'];
                 $model['Expiration'] = $response['Expiration'];
