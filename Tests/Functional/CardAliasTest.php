@@ -39,17 +39,21 @@ class CardAliasTest extends AbstractSaferpayTest
 
         $this->insertCardAlias($token, $cardAlias);
 
+        $expiry = explode('/', $formData['Expiry']);
+
         self::assertArraySubset([
             'Alias' => [
                 'Id' => $generatedId,
                 'Lifetime' => self::ALIAS_LIFETIME,
             ],
-            'PaymentMeans' => ['Card' => [
-                'MaskedNumber' => 'xxxxxxxxxxxx'.substr($formData['CardNumber'], -4),
-                'ExpYear' => (int) $formData['ExpYear'],
-                'ExpMonth' => (int) $formData['ExpMonth'],
-                'HolderName' => $formData['HolderName'],
-            ]],
+            'PaymentMeans' => [
+                'Card' => [
+                    'MaskedNumber' => 'xxxxxxxxxxxx'.substr($formData['CardNumber'], -4),
+                    'ExpYear' => (int) $expiry[1],
+                    'ExpMonth' => (int) $expiry[0],
+                    'HolderName' => $formData['HolderName'],
+                ]
+            ],
         ], $cardAlias->getDetails());
     }
 

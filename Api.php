@@ -238,4 +238,16 @@ class Api
     {
         return $this->options['sandbox'] ? 'https://test.saferpay.com/api' : 'https://www.saferpay.com/api';
     }
+
+    /**
+     * @return string
+     */
+    public function getCaptureStrategy()
+    {
+        if (isset($this->options['interface']) && is_string($this->options['interface'])) {
+            return $this->options['interface'];
+        }
+
+        return Constants::INTERFACE_TRANSACTION;
+    }
 }

@@ -110,12 +110,24 @@ abstract class AbstractSaferpayTest extends TestCase
         return $this->client->click($crawler->filter($linkSelector)->link());
     }
 
+    protected function clickButton(string $buttonSelector): Crawler
+    {
+        $crawler = $this->client->getCrawler();
+        if (null === $crawler) {
+            throw new BadMethodCallException(sprintf('The "request()" method must be called before "%s()".', __METHOD__));
+        }
+
+        $buttonNode = $crawler->filter($buttonSelector)->first();
+        $form = $buttonNode->form([], 'POST');
+
+        return $this->client->submit($form);
+    }
+
     protected function composeFormData(string $card, bool $cvc = true): array
     {
         $data = [
             'CardNumber' => $card,
-            'ExpMonth' => '01',
-            'ExpYear' => date('Y', strtotime('+1 year')),
+            'Expiry' => sprintf('01/%d', date('Y', strtotime('+1 year'))),
             'HolderName' => 'John Doe',
         ];
         if ($cvc) {
@@ -166,11 +178,11 @@ abstract class AbstractSaferpayTest extends TestCase
             || false !== strpos($this->client->getCrawler()->getUri(), '/vt2/api/register/card')
         ) {
             if ($action === 'abort') {
-                $location = $this->client->getCrawler()->filter('a.btn-abort')->attr('href');
+                $location = $this->client->getCrawler()->filter('button.btn-abort')->attr('formaction');
                 if (0 === strpos($location, self::HOST)) {
                     return $location;
                 }
-                $this->clickLink('a.btn-abort');
+                $this->clickButton('button.btn-abort');
             } else {
                 $this->client->submitForm('SubmitToNext', $formData);
             }
