@@ -267,6 +267,7 @@ class Api
                 'styling_css_url',
                 'styling_content_security_enabled',
                 'styling_theme',
+                'payer_note',
             ],
             Constants::INTERFACE_TRANSACTION => [
                 'config_set',
@@ -274,6 +275,7 @@ class Api
                 'styling_css_url', // deprecated
                 'styling_content_security_enabled',
                 'styling_theme',
+                'payer_note',
             ]
         ];
 
@@ -318,6 +320,9 @@ class Api
                 case 'styling_theme':
                     $payload['Styling'] = $payload['Styling'] ?? [];
                     $payload['Styling']['Theme'] = $optionValue;
+                    break;
+                 case 'payer_note':
+                    $payload['PayerNote'] = $optionValue;
                     break;
             }
         }

@@ -44,7 +44,7 @@ All features are covered with tests. You can find useful examples in functional 
 ## Installation
 
 ```bash
-$ composer require trackmage/payum-saferpay
+$ composer require karser/payum-saferpay
 ```
 
 ## Configuration
@@ -80,7 +80,7 @@ payum:
             customerId: '401860'
             terminalId: '17795278'
             interface: 'TRANSACTION' #optionally, can be defined via details too
-            optionalParameters: #optionally, add some additional interface options
+            optionalParameters: #optionally, add some additional interface options, read more below in section "Additional Configuration"
                 styling_css_url: 'https://acme.com/hosted-page-styles.css'
             sandbox: true
 ```
@@ -88,7 +88,6 @@ payum:
 ### With Payum
 
 ```php
-<?php
 //config.php
 
 use Payum\Core\GatewayFactoryInterface;
@@ -139,9 +138,7 @@ payum_capture_do:
 
 Make sure you defined `Payment` and `Token` entities like it is described [here](https://github.com/Payum/Payum/blob/master/docs/storages.md)
 
-
 ```php
-<?php
 //capture.php
 
 use App\Entity\Payment;
@@ -174,7 +171,6 @@ $reply = $this->gateway->execute($captureRequest, true);
 ```
 
 ```php
-<?php
 //done.php
 
 use App\Entity\Payment;
@@ -197,10 +193,8 @@ $this->gateway->execute($status = new GetHumanStatus($payment));
 ### Recurring Payments with the referenced transactions Method
 
 1. Capture payment with Recurring or Installment option:
-
 ```php
 use Karser\PayumSaferpay\Constants;
-
 
 $payment = $storage->create();
 
@@ -213,7 +207,6 @@ $captureRequest = new Capture($token);
 $captureRequest->setModel($payment);
 $reply = $this->gateway->execute($captureRequest, true);
 //then redirect user to $reply->getUrl();
-
 ```
 
 2. Capture a new transaction by providing a reference to the previous one:
@@ -238,7 +231,6 @@ $this->gateway->execute($captureRequest);
 
 1. Obtaining the Alias:
 The user will have to enter their card details in an iframe.
-
 ```php
 use Karser\PayumSaferpay\Constants;
 use Karser\PayumSaferpay\Model\CardAlias;
@@ -336,18 +328,53 @@ class ConvertPaymentExtension implements ExtensionInterface
 }
 
 ```
-## Testing
 
+### Additional Configuration
+Depending on given interface, there are several optional options available. 
+
+Example: 
+
+```yaml
+payum:
+    gateways:
+        saferpay:
+            optionalParameters:
+                styling_css_url: 'https://acme.com/hosted-page-styles.css'
+```
+
+#### Payment Page interface
+| Key                                   | Description |
+| --------------------------------------| ------------|
+| `config_set`                          | This parameter let you define your payment page config (PPConfig) by name. If this parameters is not set, your default PPConfig will be applied if available. When the PPConfig can't be found (e.g. wrong name), the Saferpay basic style will be applied to the payment page. |
+| `payment_methods`                     | Used to restrict the means of payment which are available to the payer for this transaction. If only one payment method id is set, the payment selection step will be skipped. |
+| `wallets`                             | Used to control if wallets should be enabled on the payment selection page and to go directly to the given wallet (if exactly one wallet is filled and PaymentMethods is not set). |
+| `notification_merchant_email`         | Email addresses to which a confirmation email will be sent to the merchants after successful authorizations. |
+| `notification_payer_email`            | Email address to which a confirmation email will be sent to the payer after successful authorizations. |
+| `styling_css_url`                     | Deprecated  |
+| `styling_content_security_enabled`    | When enabled, then ContentSecurity/SAQ-A is requested, which leads to the CSS being loaded from the saferpay server. |
+| `styling_theme`                       | This parameter let you customize the appearance of the displayed payment pages. Per default a lightweight responsive styling will be applied.If you don't want any styling use 'NONE'. |
+| `payer_note`                          | Text which will be printed on payer's debit note. Supported by SIX Acquiring. No guarantee that it will show up on the payer's debit note, because his bank has to support it too. Please note that maximum allowed characters are rarely supported. It's usually around 10-12. |
+
+#### Transaction interface
+| Key                                   | Description |
+| --------------------------------------| ------------|
+| `config_set`                          | This parameter let you define your payment page config (PPConfig) by name. If this parameters is not set, your default PPConfig will be applied if available. When the PPConfig can't be found (e.g. wrong name), the Saferpay basic style will be applied to the payment page.  |
+| `payment_methods`                     | Used to restrict the means of payment which are available to the payer for this transaction. If only one payment method id is set, the payment selection step will be skipped. |
+| `styling_css_url`                     | Deprecated  |
+| `styling_content_security_enabled`    | When enabled, then ContentSecurity/SAQ-A is requested, which leads to the CSS being loaded from the saferpay server. |
+| `styling_theme`                       | This parameter let you customize the appearance of the displayed payment pages. Per default a lightweight responsive styling will be applied. If you don't want any styling use 'NONE'. |
+| `payer_note`                          | Text which will be printed on payer's debit note. Supported by SIX Acquiring. No guarantee that it will show up on the payer's debit note, because his bank has to support it too. Please note that maximum allowed characters are rarely supported. It's usually around 10-12. |
+
+## Testing
 ```
 composer update
 vendor/bin/phpunit
 ```
 
-
 ## ToDo
 - Implement separate actions: Authorize, Cancel transaction
 - Improve and add more unit tests
-- config parameters: LIABILITY_SHIFT condition, payer note
+- config parameters: LIABILITY_SHIFT condition
 
 ## Credits
 - Dmitrii Poddubnyi <dpoddubny@gmail.com>
