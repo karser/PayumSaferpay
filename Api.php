@@ -41,7 +41,8 @@ class Api
         'customerId' => null,
         'terminalId' => null,
         'sandbox' => null,
-        'iframeCssUrl' => null,
+        'interface' => null,
+        'optionalParameters' => null,
     );
 
     /**
@@ -121,11 +122,7 @@ class Api
             'ReturnUrls' => $model['ReturnUrls'],
         ];
 
-        if (null !== $this->options['iframeCssUrl']) {
-            $payload['Styling'] = [
-                'CssUrl' => $this->options['iframeCssUrl'],
-            ];
-        }
+        $payload = $this->addOptionalInterfaceParams(Constants::INTERFACE_TRANSACTION, $payload);
 
         $paymentMeans = $model['PaymentMeans'] ?? null;
 
@@ -147,11 +144,7 @@ class Api
             'ReturnUrls' => $model['ReturnUrls'],
         ];
 
-        if (null !== $this->options['iframeCssUrl']) {
-            $payload['Styling'] = [
-                'CssUrl' => $this->options['iframeCssUrl'],
-            ];
-        }
+        $payload = $this->addOptionalInterfaceParams(Constants::INTERFACE_PAYMENT_PAGE, $payload);
 
         $notification = $model['Notification'] ?? null;
 
@@ -260,5 +253,80 @@ class Api
         }
 
         return Constants::INTERFACE_TRANSACTION;
+    }
+
+    protected function addOptionalInterfaceParams(string $interface, array $payload): array
+    {
+        $allowedOptions = [
+            Constants::INTERFACE_PAYMENT_PAGE => [
+                'config_set',
+                'payment_methods',
+                'wallets',
+                'notification_merchant_email',
+                'notification_payer_email',
+                'styling_css_url',
+                'styling_content_security_enabled',
+                'styling_theme',
+                'payer_note',
+            ],
+            Constants::INTERFACE_TRANSACTION => [
+                'config_set',
+                'payment_methods',
+                'styling_css_url', // deprecated
+                'styling_content_security_enabled',
+                'styling_theme',
+                'payer_note',
+            ]
+        ];
+
+        $optionalInterfaceOptions = $this->options['optionalParameters'] ?? [];
+
+        foreach ($optionalInterfaceOptions as $optionName => $optionValue) {
+
+            if (empty($optionValue)) {
+                continue;
+            }
+
+            if (!in_array($optionName, $allowedOptions[$interface])) {
+                continue;
+            }
+
+            switch($optionName) {
+                case 'config_set':
+                    $payload['ConfigSet'] = (string) $optionValue;
+                    break;
+                case 'payment_methods':
+                    $payload['PaymentMethods'] = explode(',', $optionValue);
+                    break;
+                case 'wallets':
+                    $payload['Wallets'] = explode(',', $optionValue);
+                    break;
+                case 'notification_merchant_email':
+                    $payload['Notification'] = $payload['Notification'] ?? [];
+                    $payload['Notification']['MerchantEmails'] = explode(',', $optionValue);
+                    break;
+                case 'notification_payer_email':
+                    $payload['Notification'] = $payload['Notification'] ?? [];
+                    $payload['Notification']['PayerEmail'] = (string) $optionValue;
+                    break;
+                case 'styling_css_url':
+                    $payload['Styling'] = $payload['Styling'] ?? [];
+                    $payload['Styling']['CssUrl'] = $optionValue;
+                    break;
+                case 'styling_content_security_enabled':
+                    $payload['Styling'] = $payload['Styling'] ?? [];
+                    $payload['Styling']['ContentSecurityEnabled'] = $optionValue;
+                    break;
+                case 'styling_theme':
+                    $payload['Styling'] = $payload['Styling'] ?? [];
+                    $payload['Styling']['Theme'] = $optionValue;
+                    break;
+                 case 'payer_note':
+                    $payload['PayerNote'] = $optionValue;
+                    break;
+            }
+        }
+
+        return $payload;
     }
 }
