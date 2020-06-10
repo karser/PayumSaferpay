@@ -294,11 +294,7 @@ class Api
                     $payload['ConfigSet'] = (string) $optionValue;
                     break;
                 case 'payment_methods':
-                    if (is_string($optionValue) && strpos($optionValue, ',') !== false) {
-                        $optionValue = explode(',', $optionValue);
-                    }
-
-                    $payload['PaymentMethods'] = (array) $optionValue;
+                    $payload['PaymentMethods'] = explode(',', $optionValue);
                     break;
                 case 'wallets':
                     $payload['Wallets'] = explode(',', $optionValue);
