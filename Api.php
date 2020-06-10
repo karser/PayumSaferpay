@@ -41,7 +41,6 @@ class Api
         'customerId' => null,
         'terminalId' => null,
         'sandbox' => null,
-        'iframeCssUrl' => null,
         'interface' => null,
         'optionalParameters' => null,
     );
@@ -279,11 +278,6 @@ class Api
         ];
 
         $optionalInterfaceOptions = $this->options['optionalParameters'] ?? [];
-
-        // legacy
-        if (null !== $this->options['iframeCssUrl']) {
-            $optionalInterfaceOptions['styling_css_url'] = $this->options['iframeCssUrl'];
-        }
 
         foreach ($optionalInterfaceOptions as $optionName => $optionValue) {
 
