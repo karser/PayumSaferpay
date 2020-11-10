@@ -34,8 +34,13 @@ class CaptureTransactionAction extends BaseApiAwareAction
                 'Date' => $response['Date'],
             ])]);
         } catch (SaferpayHttpException $e) {
-            $model['Error'] = $e->toArray();
-            $model->replace(['Transaction' => array_merge($model['Transaction'], ['Status' => Constants::STATUS_FAILED])]);
+            $error = $e->toArray();
+            $errorName = $error['Data']['ErrorName'] ?? null;
+            // do not raise any errors if transaction already has been captured
+            if ($errorName !== Constants::ERROR_NAME_TRANSACTION_ALREADY_CAPTURED) {
+                $model['Error'] = $error;
+                $model->replace(['Transaction' => array_merge($model['Transaction'], ['Status' => Constants::STATUS_FAILED])]);
+            }
         }
     }
 
