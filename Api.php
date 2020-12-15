@@ -296,14 +296,14 @@ class Api
                     $payload['ConfigSet'] = (string) $optionValue;
                     break;
                 case 'payment_methods':
-                    $payload['PaymentMethods'] = explode(',', $optionValue);
+                    $payload['PaymentMethods'] = $this->trimExplode($optionValue);
                     break;
                 case 'wallets':
-                    $payload['Wallets'] = explode(',', $optionValue);
+                    $payload['Wallets'] = $this->trimExplode($optionValue);
                     break;
                 case 'notification_merchant_email':
                     $payload['Notification'] = $payload['Notification'] ?? [];
-                    $payload['Notification']['MerchantEmails'] = explode(',', $optionValue);
+                    $payload['Notification']['MerchantEmails'] = $this->trimExplode($optionValue);
                     break;
                 case 'notification_payer_email':
                     $payload['Notification'] = $payload['Notification'] ?? [];
@@ -328,5 +328,14 @@ class Api
         }
 
         return $payload;
+    }
+    
+    /**
+     * @param string $data
+     * @param string $delimiter
+     * @return array
+     */
+    protected function trimExplode(string $data, string $delimiter = ','): array {
+        return array_map('trim', explode($delimiter, $data));
     }
 }
