@@ -10,7 +10,7 @@ use Karser\PayumSaferpay\Request\Api\CaptureTransaction;
 use Karser\PayumSaferpay\Request\Api\InitPaymentPage;
 use Karser\PayumSaferpay\Request\Api\InitTransaction;
 use League\Uri\Http as HttpUri;
-use League\Uri\Modifiers\MergeQuery;
+use League\Uri\UriModifier;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\ApiAwareInterface;
 use Payum\Core\ApiAwareTrait;
@@ -135,17 +135,9 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
 
     private function composeReturnUrls(string $url): array
     {
-        $successUrl = HttpUri::createFromString($url);
-        $modifier = new MergeQuery('success=1');
-        $successUrl = $modifier->process($successUrl);
-
-        $failedUrl = HttpUri::createFromString($url);
-        $modifier = new MergeQuery('fail=1');
-        $failedUrl = $modifier->process($failedUrl);
-
-        $cancelUri = HttpUri::createFromString($url);
-        $modifier = new MergeQuery('abort=1');
-        $cancelUri = $modifier->process($cancelUri);
+        $successUrl = UriModifier::mergeQuery(HttpUri::createFromString($url), 'success=1');
+        $failedUrl = UriModifier::mergeQuery(HttpUri::createFromString($url), 'fail=1');
+        $cancelUri = UriModifier::mergeQuery(HttpUri::createFromString($url), 'abort=1');
 
         return [
             'Success' => (string) $successUrl,

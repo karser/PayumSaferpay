@@ -7,7 +7,7 @@ use Karser\PayumSaferpay\Request\Api\AssertInsertAlias;
 use Karser\PayumSaferpay\Request\Api\InsertAlias;
 use Karser\PayumSaferpay\Request\InsertCardAlias;
 use League\Uri\Http as HttpUri;
-use League\Uri\Modifiers\MergeQuery;
+use League\Uri\UriModifier;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
@@ -53,17 +53,9 @@ class InsertCardAliasAction implements ActionInterface, GatewayAwareInterface
         if (empty($model['ReturnUrls'])) {
             $token = $request->getToken();
 
-            $successUrl = HttpUri::createFromString($token->getTargetUrl());
-            $modifier = new MergeQuery('success=1');
-            $successUrl = $modifier->process($successUrl);
-
-            $failedUrl = HttpUri::createFromString($token->getTargetUrl());
-            $modifier = new MergeQuery('fail=1');
-            $failedUrl = $modifier->process($failedUrl);
-
-            $cancelUri = HttpUri::createFromString($token->getTargetUrl());
-            $modifier = new MergeQuery('abort=1');
-            $cancelUri = $modifier->process($cancelUri);
+            $successUrl = UriModifier::mergeQuery(HttpUri::createFromString($token->getTargetUrl()), 'success=1');
+            $failedUrl = UriModifier::mergeQuery(HttpUri::createFromString($token->getTargetUrl()), 'fail=1');
+            $cancelUri = UriModifier::mergeQuery(HttpUri::createFromString($token->getTargetUrl()), 'abort=1');
 
             $model['ReturnUrls'] = [
                 'Success' => (string) $successUrl,
