@@ -37,7 +37,8 @@ class CaptureActionTest extends GenericActionTest
         ($r1 = new Capture(new Token()))->setModel(array());
         ($r2 = new Capture(new Token()))->setModel(new \ArrayObject());
 
-        yield [[$r1], [$r2]];
+        yield [$r1];
+        yield [$r2];
     }
 
     /**

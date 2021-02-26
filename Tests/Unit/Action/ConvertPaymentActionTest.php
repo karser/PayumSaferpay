@@ -33,25 +33,24 @@ class ConvertPaymentActionTest extends GenericActionTest
         self::assertNotNull(new $this->actionClass());
     }
 
-    public function provideSupportedRequests()
+    public function provideSupportedRequests(): \Iterator
     {
-        return array(
-            array(new $this->requestClass(new Payment(), 'array')),
-            array(new $this->requestClass($this->createMock(PaymentInterface::class), 'array')),
-            array(new $this->requestClass(new Payment(), 'array', $this->createMock('Payum\Core\Security\TokenInterface'))),
-        );
+        yield [new $this->requestClass(new Payment(), 'array')];
+        yield [new $this->requestClass($this->createMock(PaymentInterface::class), 'array')];
+        yield [new $this->requestClass(new Payment(), 'array', $this->createMock('Payum\Core\Security\TokenInterface'))];
+
     }
-    public function provideNotSupportedRequests()
+
+    public function provideNotSupportedRequests(): \Iterator
     {
-        return array(
-            array('foo'),
-            array(array('foo')),
-            array(new \stdClass()),
-            array($this->getMockForAbstractClass(Generic::class, array(array()))),
-            array(new $this->requestClass(new \stdClass(), 'array')),
-            array(new $this->requestClass(new Payment(), 'foobar')),
-            array(new $this->requestClass($this->createMock(PaymentInterface::class), 'foobar')),
-        );
+        yield ['foo'];
+        yield [['foo']];
+        yield [new \stdClass()];
+        yield [$this->getMockForAbstractClass(Generic::class, [[]])];
+        yield [new $this->requestClass(new \stdClass(), 'array')];
+        yield [new $this->requestClass(new Payment(), 'foobar')];
+        yield [new $this->requestClass($this->createMock(PaymentInterface::class), 'foobar')];
+
     }
 
     /**

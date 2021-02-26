@@ -46,7 +46,7 @@ class CaptureReferencedActionTest extends GenericActionTest
      */
     public function provideSupportedRequests(): \Iterator
     {
-        yield [[new CaptureReferenced(new Payment())]];
+        yield [new CaptureReferenced(new Payment())];
     }
 
 }

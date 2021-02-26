@@ -52,6 +52,7 @@ class InsertCardAliasActionTest extends GenericActionTest
             return $request;
         }
 
-        yield [[getRequest([])], [getRequest(new \ArrayObject())]];
+        yield [getRequest([])];
+        yield [getRequest(new \ArrayObject())];
     }
 }
