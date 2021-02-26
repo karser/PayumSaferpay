@@ -32,14 +32,12 @@ class CaptureActionTest extends GenericActionTest
         $this->assertTrue($rc->implementsInterface(GatewayAwareInterface::class));
     }
 
-    public function provideSupportedRequests(): array
+    public function provideSupportedRequests(): \Iterator
     {
         ($r1 = new Capture(new Token()))->setModel(array());
         ($r2 = new Capture(new Token()))->setModel(new \ArrayObject());
-        return [
-            [$r1],
-            [$r2],
-        ];
+
+        yield [[$r1], [$r2]];
     }
 
     /**

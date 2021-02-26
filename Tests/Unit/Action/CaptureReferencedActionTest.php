@@ -44,11 +44,9 @@ class CaptureReferencedActionTest extends GenericActionTest
     /**
      * Overridden because CaptureAction requires request to have TOKEN
      */
-    public function provideSupportedRequests(): array
+    public function provideSupportedRequests(): \Iterator
     {
-        return [
-            [new CaptureReferenced(new Payment())],
-        ];
+        yield [[new CaptureReferenced(new Payment())]];
     }
 
 }
