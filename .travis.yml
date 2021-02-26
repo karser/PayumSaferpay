@@ -1,5 +1,9 @@
 language: php
 
+env:
+    global:
+        - XDEBUG_MODE=coverage
+
 cache:
     directories:
         - $HOME/.composer/cache
@@ -8,6 +12,7 @@ matrix:
     include:
         - php: 7.2
         - php: 7.3
+        - php: 7.4
           env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-clover=coverage.clover"
     fast_finish: true
 
