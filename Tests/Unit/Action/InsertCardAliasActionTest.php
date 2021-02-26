@@ -42,7 +42,7 @@ class InsertCardAliasActionTest extends GenericActionTest
         self::assertNotNull(new $this->actionClass());
     }
 
-    public function provideSupportedRequests(): array
+    public function provideSupportedRequests(): \Iterator
     {
         function getRequest($details) {
             $alias = new CardAlias();
@@ -52,9 +52,7 @@ class InsertCardAliasActionTest extends GenericActionTest
             return $request;
         }
 
-        return [
-            [getRequest(array())],
-            [getRequest(new \ArrayObject())],
-        ];
+        yield [getRequest([])];
+        yield [getRequest(new \ArrayObject())];
     }
 }
