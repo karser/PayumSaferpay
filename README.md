@@ -1,6 +1,6 @@
 # Saferpay Payum Plugin
 
-[![Build Status](https://travis-ci.org/karser/PayumSaferpay.svg?branch=master)](https://travis-ci.org/karser/PayumSaferpay)
+[![Build Status](https://github.com/karser/PayumSaferpay/workflows/Code_Checks/badge.svg)](https://github.com/karser/PayumSaferpay/actions)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/karser/PayumSaferpay/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/karser/PayumSaferpay/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/karser/PayumSaferpay/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/karser/PayumSaferpay/?branch=master)
 [![Total Downloads](https://poser.pugx.org/karser/payum-saferpay/downloads)](https://packagist.org/packages/karser/payum-saferpay)
