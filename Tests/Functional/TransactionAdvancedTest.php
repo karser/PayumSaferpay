@@ -86,7 +86,7 @@ class TransactionAdvancedTest extends AbstractSaferpayTest
         $this->assertStatus(GetHumanStatus::STATUS_FAILED, $payment);
 
         $details = $payment->getDetails();
-        self::assertSame("Condition 'WITH_LIABILITY_SHIFT' not satisfied", $details['Error']['Message']);
+        self::assertStringStartsWith('Liability shift condition not satisfied', $details['Error']['Message']);
     }
 
     /**
