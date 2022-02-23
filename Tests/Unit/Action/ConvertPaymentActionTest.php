@@ -9,9 +9,11 @@ use Payum\Core\Model\PaymentInterface;
 use Payum\Core\Request\Convert;
 use Payum\Core\Request\Generic;
 use Payum\Core\Tests\GenericActionTest;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 class ConvertPaymentActionTest extends GenericActionTest
 {
+    use ArraySubsetAsserts;
     protected $requestClass = Convert::class;
     protected $actionClass = ConvertPaymentAction::class;
 

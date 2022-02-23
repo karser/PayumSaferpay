@@ -16,35 +16,33 @@ class AuthorizeReferencedTransactionActionTest extends BaseApiActionTest
     /**
      * @test
      *
-     * @expectedException \Payum\Core\Exception\LogicException
-     * @expectedExceptionMessage Cannot authorize transaction with status: "FAILED"
      */
     public function throwIfStatusNotNull(): void
     {
+        $this->expectException(\Payum\Core\Exception\LogicException::class);
+        $this->expectExceptionMessage("Cannot authorize transaction with status: \"FAILED\"");
         $action = new AuthorizeReferencedTransactionAction();
         $action->execute(new AuthorizeReferencedTransaction(['Transaction' => ['Status' => Constants::STATUS_FAILED]]));
     }
 
     /**
      * @test
-     *
-     * @expectedException \Payum\Core\Exception\LogicException
-     * @expectedExceptionMessage Payment is missing
      */
     public function throwIfPaymentNotSetInModel(): void
     {
+        $this->expectExceptionMessage("Payment is missing");
+        $this->expectException(\Payum\Core\Exception\LogicException::class);
         $action = new AuthorizeReferencedTransactionAction();
         $action->execute(new AuthorizeReferencedTransaction(['Transaction' => ['Status' => null]]));
     }
 
     /**
      * @test
-     *
-     * @expectedException \Payum\Core\Exception\LogicException
-     * @expectedExceptionMessage TransactionId is missing
      */
     public function throwIfTransactionIdNotSetInModel(): void
     {
+        $this->expectExceptionMessage("TransactionId is missing");
+        $this->expectException(\Payum\Core\Exception\LogicException::class);
         $action = new AuthorizeReferencedTransactionAction();
         $action->execute(new AuthorizeReferencedTransaction([
             'Payment' => ['set'],

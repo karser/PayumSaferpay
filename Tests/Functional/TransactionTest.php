@@ -64,7 +64,7 @@ class TransactionTest extends AbstractSaferpayTest
         $iframeRedirect = $this->getThroughCheckout($iframeUrl, $formData, $formBehavior);
         self::assertNotNull($iframeRedirect);
         self::assertStringStartsWith(self::HOST, $iframeRedirect);
-        self::assertContains('payum_token='.$token->getHash(), $iframeRedirect);
+        self::assertStringContainsString('payum_token='.$token->getHash(), $iframeRedirect);
         parse_str(parse_url($iframeRedirect, PHP_URL_QUERY) ?: '', $_GET);
 
         # AUTHORIZE AND CAPTURE
