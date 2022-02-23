@@ -24,7 +24,7 @@
         "payum/core": "^1.6"
     },
     "require-dev": {
-        "fabpot/goutte": "^3.3",
+        "fabpot/goutte": "^4.0",
         "php-http/guzzle6-adapter": "^2.0",
         "phpunit/phpunit": "^9.5",
         "dms/phpunit-arraysubset-asserts": "^0.4.0"
