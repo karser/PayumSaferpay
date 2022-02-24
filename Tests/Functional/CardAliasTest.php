@@ -11,7 +11,7 @@ class CardAliasTest extends AbstractSaferpayTest
     /**
      * @test
      */
-    public function insertAlias()
+    public function insertAlias(): void
     {
         $cardAlias = $this->createCardAlias([
             'Alias' => [
@@ -60,7 +60,7 @@ class CardAliasTest extends AbstractSaferpayTest
     /**
      * @test
      */
-    public function deleteAlias()
+    public function deleteAlias(): void
     {
         $cardAlias = $this->createInsertedCardAlias([]);
         self::assertNotNull($cardAlias->getDetails()['Alias']['Id']);

@@ -56,7 +56,7 @@ class ConvertPaymentActionTest extends GenericActionTest
     /**
      * @test
      */
-    public function shouldCorrectlyConvertOrderToDetailsAndSetItBack()
+    public function shouldCorrectlyConvertOrderToDetailsAndSetItBack(): void
     {
         $payment = new Payment();
         $payment->setNumber('theNumber');
@@ -93,7 +93,7 @@ class ConvertPaymentActionTest extends GenericActionTest
     /**
      * @test
      */
-    public function shouldNotOverwriteAlreadySetExtraDetails()
+    public function shouldNotOverwriteAlreadySetExtraDetails(): void
     {
         $payment = new Payment();
         $payment->setNumber('theNumber');
