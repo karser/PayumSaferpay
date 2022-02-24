@@ -17,7 +17,7 @@ class CancelAction implements ActionInterface
      *
      * @param Cancel $request
      */
-    public function execute($request)
+    public function execute($request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
@@ -29,7 +29,7 @@ class CancelAction implements ActionInterface
     /**
      * {@inheritDoc}
      */
-    public function supports($request)
+    public function supports($request): bool
     {
         return
             $request instanceof Cancel &&

@@ -24,7 +24,6 @@ class InsertCardAliasAction implements ActionInterface, GatewayAwareInterface
      */
     public function execute($request): void
     {
-
         RequestNotSupportedException::assertSupports($this, $request);
 
         /** @var $cardAlias CardAliasInterface */
@@ -39,7 +38,7 @@ class InsertCardAliasAction implements ActionInterface, GatewayAwareInterface
         }
     }
 
-    private function doExecute(InsertCardAlias $request, ArrayObject $details)
+    private function doExecute(InsertCardAlias $request, ArrayObject $details): void
     {
         if (empty($details['Token'])) {
             $this->insertAliasAction($request, $details);
@@ -48,7 +47,7 @@ class InsertCardAliasAction implements ActionInterface, GatewayAwareInterface
         $this->gateway->execute(new AssertInsertAlias($details));
     }
 
-    private function insertAliasAction(InsertCardAlias $request, ArrayObject $model)
+    private function insertAliasAction(InsertCardAlias $request, ArrayObject $model): void
     {
         if (empty($model['ReturnUrls'])) {
             $token = $request->getToken();

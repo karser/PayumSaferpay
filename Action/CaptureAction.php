@@ -45,7 +45,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
     /**
      * @param Capture $request
      */
-    public function execute($request)
+    public function execute($request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
@@ -65,7 +65,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
         }
     }
 
-    private function handlePaymentPageInterface(Capture $request)
+    private function handlePaymentPageInterface(Capture $request): void
     {
         $model = ArrayObject::ensureArrayObject($request->getModel());
 
@@ -102,7 +102,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
         }
     }
 
-    private function handleTransactionInterface(Capture $request)
+    private function handleTransactionInterface(Capture $request): void
     {
         $model = ArrayObject::ensureArrayObject($request->getModel());
 

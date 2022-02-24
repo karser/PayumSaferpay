@@ -21,9 +21,9 @@ class CaptureReferencedAction implements ActionInterface, GatewayAwareInterface
     /**
      * @param mixed $request
      *
-     * @throws \Payum\Core\Exception\RequestNotSupportedException if the action dose not support the request.
+     * @throws \Payum\Core\Exception\RequestNotSupportedException if the action does not support the request.
      */
-    public function execute($request)
+    public function execute($request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
@@ -49,10 +49,8 @@ class CaptureReferencedAction implements ActionInterface, GatewayAwareInterface
 
     /**
      * @param mixed $request
-     *
-     * @return boolean
      */
-    public function supports($request)
+    public function supports($request): bool
     {
         return
             $request instanceof CaptureReferenced &&

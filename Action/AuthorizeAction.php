@@ -18,7 +18,7 @@ class AuthorizeAction implements ActionInterface, GatewayAwareInterface
      *
      * @param Authorize $request
      */
-    public function execute($request)
+    public function execute($request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
@@ -30,7 +30,7 @@ class AuthorizeAction implements ActionInterface, GatewayAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function supports($request)
+    public function supports($request): bool
     {
         return
             $request instanceof Authorize &&
