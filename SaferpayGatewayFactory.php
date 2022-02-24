@@ -30,7 +30,7 @@ class SaferpayGatewayFactory extends GatewayFactory
     /**
      * {@inheritDoc}
      */
-    protected function populateConfig(ArrayObject $config)
+    protected function populateConfig(ArrayObject $config): void
     {
         $config->defaults([
             'payum.factory_name' => 'saferpay',

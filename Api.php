@@ -45,11 +45,6 @@ class Api
         'optionalParameters' => null,
     );
 
-    /**
-     * @param array               $options
-     * @param HttpClientInterface $client
-     * @param MessageFactory      $messageFactory
-     */
     public function __construct(array $options, HttpClientInterface $client, MessageFactory $messageFactory)
     {
         $options = ArrayObject::ensureArrayObject($options);
@@ -66,13 +61,7 @@ class Api
         $this->messageFactory = $messageFactory;
     }
 
-    /**
-     * @param string $path
-     * @param array $fields
-     *
-     * @return array
-     */
-    protected function doRequest($path, array $fields)
+    protected function doRequest(string $path, array $fields): array
     {
         $headers = [
             'Authorization' => 'Basic ' . base64_encode($this->options['username'] . ':' . $this->options['password']),
@@ -235,18 +224,12 @@ class Api
         return $this->doRequest(self::ALIAS_DELETE_PATH, $payload);
     }
 
-    /**
-     * @return string
-     */
-    public function getApiEndpoint()
+    public function getApiEndpoint(): string
     {
         return $this->options['sandbox'] ? 'https://test.saferpay.com/api' : 'https://www.saferpay.com/api';
     }
 
-    /**
-     * @return string
-     */
-    public function getCaptureStrategy()
+    public function getCaptureStrategy(): string
     {
         if (isset($this->options['interface']) && is_string($this->options['interface'])) {
             return $this->options['interface'];
@@ -329,12 +312,7 @@ class Api
 
         return $payload;
     }
-    
-    /**
-     * @param string $data
-     * @param string $delimiter
-     * @return array
-     */
+
     protected function trimExplode(string $data, string $delimiter = ','): array {
         return array_map('trim', explode($delimiter, $data));
     }

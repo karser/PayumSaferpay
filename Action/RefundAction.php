@@ -20,7 +20,7 @@ class RefundAction implements ActionInterface, GatewayAwareInterface
      *
      * @param Refund $request
      */
-    public function execute($request)
+    public function execute($request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
@@ -33,7 +33,7 @@ class RefundAction implements ActionInterface, GatewayAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function supports($request)
+    public function supports($request): bool
     {
         return
             $request instanceof Refund &&

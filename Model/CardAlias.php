@@ -18,9 +18,6 @@ class CardAlias extends CreditCard implements CardAliasInterface
         $this->details = [];
     }
 
-    /**
-     * @return array
-     */
     public function getDetails(): array
     {
         return $this->details;

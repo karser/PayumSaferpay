@@ -12,7 +12,7 @@ use Payum\Core\Exception\RequestNotSupportedException;
 
 class CaptureTransactionAction extends BaseApiAwareAction
 {
-    public function execute($request)
+    public function execute($request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
         $model = ArrayObject::ensureArrayObject($request->getModel());
