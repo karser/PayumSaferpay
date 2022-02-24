@@ -12,7 +12,7 @@ class TransactionAdvancedTest extends AbstractSaferpayTest
     /**
      * @test
      */
-    public function refund()
+    public function refund(): void
     {
         $payment = $this->createCapturedPayment([]);
         $this->assertStatus(GetHumanStatus::STATUS_CAPTURED, $payment);
@@ -23,7 +23,7 @@ class TransactionAdvancedTest extends AbstractSaferpayTest
 
     }
 
-    public static function paymentRecurringProvider()
+    public static function paymentRecurringProvider(): array
     {
         return [
             [

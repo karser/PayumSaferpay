@@ -16,6 +16,7 @@ use Payum\Core\Payum;
 use Payum\Core\PayumBuilder;
 use Payum\Core\Registry\StorageRegistryInterface;
 use Payum\Core\Reply\HttpRedirect;
+use Payum\Core\Reply\ReplyInterface;
 use Payum\Core\Request\Capture;
 use Payum\Core\Request\GetHumanStatus;
 use Payum\Core\Security\TokenInterface;
@@ -136,7 +137,7 @@ abstract class AbstractSaferpayTest extends TestCase
         return $data;
     }
 
-    protected function capture(TokenInterface $token, PaymentInterface $payment): ?HttpRedirect
+    protected function capture(TokenInterface $token, PaymentInterface $payment): ?ReplyInterface
     {
         $captureRequest = new Capture($token);
         $captureRequest->setModel($payment);
@@ -287,7 +288,7 @@ abstract class AbstractSaferpayTest extends TestCase
         return $cardAlias;
     }
 
-    protected function insertCardAlias(TokenInterface $token, CardAliasInterface $cardAlias): ?HttpRedirect
+    protected function insertCardAlias(TokenInterface $token, CardAliasInterface $cardAlias): ?ReplyInterface
     {
         $insertCardAliasRequest = new InsertCardAlias($token);
         $insertCardAliasRequest->setModel($cardAlias);

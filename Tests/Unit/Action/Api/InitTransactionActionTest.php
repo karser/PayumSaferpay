@@ -13,7 +13,7 @@ class InitTransactionActionTest extends BaseApiActionTest
     /**
      * @test
      */
-    public function throwIfPaymentNotSetInModel()
+    public function throwIfPaymentNotSetInModel(): void
     {
         $this->expectExceptionMessage("Payment is missing");
         $this->expectException(\Payum\Core\Exception\LogicException::class);
@@ -24,7 +24,7 @@ class InitTransactionActionTest extends BaseApiActionTest
     /**
      * @test
      */
-    public function throwIfReturnsUrlNotSetInModel()
+    public function throwIfReturnsUrlNotSetInModel(): void
     {
         $this->expectExceptionMessage("ReturnUrls is missing");
         $this->expectException(\Payum\Core\Exception\LogicException::class);
@@ -35,7 +35,7 @@ class InitTransactionActionTest extends BaseApiActionTest
     /**
      * @test
      */
-    public function shouldCallApiInitTransactionMethodWithExpectedRequiredArguments()
+    public function shouldCallApiInitTransactionMethodWithExpectedRequiredArguments(): void
     {
         $apiMock = $this->createApiMock();
         $apiMock
@@ -58,7 +58,7 @@ class InitTransactionActionTest extends BaseApiActionTest
     /**
      * @test
      */
-    public function shouldNotCallApiInitTransactionMethod_ifTokenSetInModel()
+    public function shouldNotCallApiInitTransactionMethod_ifTokenSetInModel(): void
     {
         $apiMock = $this->createApiMock();
         $apiMock
@@ -76,7 +76,7 @@ class InitTransactionActionTest extends BaseApiActionTest
     /**
      * @test
      */
-    public function shouldThrowRedirect_ifSet()
+    public function shouldThrowRedirect_ifSet(): void
     {
         $this->expectException(\Payum\Core\Reply\HttpRedirect::class);
         $apiMock = $this->createApiMock();
