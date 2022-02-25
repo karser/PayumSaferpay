@@ -14,24 +14,22 @@ class CaptureTransactionActionTest extends BaseApiActionTest
 
     /**
      * @test
-     *
-     * @expectedException \Payum\Core\Exception\LogicException
-     * @expectedExceptionMessage Cannot capture transaction with status: "FAILED"
      */
     public function throwIfStatusIncorrect(): void
     {
+        $this->expectExceptionMessage("Cannot capture transaction with status: \"FAILED\"");
+        $this->expectException(\Payum\Core\Exception\LogicException::class);
         $action = new CaptureTransactionAction();
         $action->execute(new CaptureTransaction(['Transaction' => ['Status' => Constants::STATUS_FAILED]]));
     }
 
     /**
      * @test
-     *
-     * @expectedException \Payum\Core\Exception\LogicException
-     * @expectedExceptionMessage Transaction is missing
      */
     public function throwIfTransactionIdNotSetInModel(): void
     {
+        $this->expectExceptionMessage("Transaction is missing");
+        $this->expectException(\Payum\Core\Exception\LogicException::class);
         $action = new CaptureTransactionAction();
         $action->execute(new CaptureTransaction(['Transaction' => ['Status' => Constants::STATUS_AUTHORIZED]]));
     }

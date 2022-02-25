@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit colors="true" bootstrap="vendor/autoload.php">
-    <testsuites>
-        <testsuite name="Test Suite">
-            <directory>./Tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory suffix=".php">.</directory>
-            <exclude>
-                <directory>Tests</directory>
-                <directory>vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" bootstrap="vendor/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">.</directory>
+    </include>
+    <exclude>
+      <directory>Tests</directory>
+      <directory>vendor</directory>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="Test Suite">
+      <directory>./Tests</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

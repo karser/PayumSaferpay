@@ -90,11 +90,10 @@ abstract class BaseApiActionTest extends TestCase
     }
     /**
      * @test
-     *
-     * @expectedException \Payum\Core\Exception\RequestNotSupportedException
      */
     public function throwIfNotSupportedRequestGivenAsArgumentForExecute(): void
     {
+        $this->expectException(\Payum\Core\Exception\RequestNotSupportedException::class);
         $action = new $this->actionClass();
         $action->execute(new \stdClass());
     }

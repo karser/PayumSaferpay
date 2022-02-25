@@ -14,24 +14,22 @@ class AuthorizeTransactionActionTest extends BaseApiActionTest
 
     /**
      * @test
-     *
-     * @expectedException \Payum\Core\Exception\LogicException
-     * @expectedExceptionMessage Cannot authorize transaction with status: "FAILED"
      */
     public function throwIfStatusIncorrect(): void
     {
+        $this->expectExceptionMessage("Cannot authorize transaction with status: \"FAILED\"");
+        $this->expectException(\Payum\Core\Exception\LogicException::class);
         $action = new AuthorizeTransactionAction();
         $action->execute(new AuthorizeTransaction(['Transaction' => ['Status' => Constants::STATUS_FAILED]]));
     }
 
     /**
      * @test
-     *
-     * @expectedException \Payum\Core\Exception\LogicException
-     * @expectedExceptionMessage Token is missing
      */
     public function throwIfTokenNotSetInModel(): void
     {
+        $this->expectExceptionMessage("Token is missing");
+        $this->expectException(\Payum\Core\Exception\LogicException::class);
         $action = new AuthorizeTransactionAction();
         $action->execute(new AuthorizeTransaction(['Transaction' => ['Status' => Constants::STATUS_PENDING]]));
     }

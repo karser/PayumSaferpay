@@ -58,7 +58,7 @@ class PaymentPageTest extends AbstractSaferpayTest
         $iframeRedirect = $this->getThroughCheckout($iframeUrl, $formData, $formBehavior);
 
         self::assertStringStartsWith(self::HOST, $iframeRedirect);
-        self::assertContains('payum_token='.$token->getHash(), $iframeRedirect);
+        self::assertStringContainsString('payum_token='.$token->getHash(), $iframeRedirect);
         parse_str(parse_url($iframeRedirect, PHP_URL_QUERY), $_GET);
 
         # AUTHORIZE AND CAPTURE
@@ -87,8 +87,8 @@ class PaymentPageTest extends AbstractSaferpayTest
         # submit form
         $iframeRedirect = $this->getThroughCheckout($iframeUrl, $this->composeFormData(self::CARD_SUCCESS));
         self::assertStringStartsWith(self::HOST, $iframeRedirect);
-        self::assertContains('payum_token='.$token->getHash(), $iframeRedirect);
-        self::assertContains('success=1', $iframeRedirect);
+        self::assertStringContainsString('payum_token='.$token->getHash(), $iframeRedirect);
+        self::assertStringContainsString('success=1', $iframeRedirect);
 
         $notifyUrl = $payment->getDetails()['Notification']['NotifyUrl'];
         $_SERVER['REQUEST_URI'] = $notifyUrl;

@@ -12,9 +12,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Psr7\Response;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 class ApiTest extends TestCase
 {
+    use ArraySubsetAsserts;
     private $options = [];
 
     public function setUp(): void
@@ -40,12 +42,11 @@ class ApiTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException \Payum\Core\Exception\LogicException
-     * @expectedExceptionMessageRegExp /fields are required/
      */
     public function throwIfSandboxOptionNotSetInConstructor(): void
     {
+        $this->expectException(\Payum\Core\Exception\LogicException::class);
+        $this->expectExceptionMessageMatches("/fields are required/");
         new Api(array(), $this->createHttpClientMock(), $this->createHttpMessageFactory());
     }
 
@@ -334,12 +335,11 @@ class ApiTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException \Karser\PayumSaferpay\Exception\SaferpayHttpException
-     * @expectedExceptionMessage Condition 'WITH_LIABILITY_SHIFT' not satisfied
      */
     public function throwIfResponseStatusNotOk(): void
     {
+        $this->expectException(\Karser\PayumSaferpay\Exception\SaferpayHttpException::class);
+        $this->expectExceptionMessage("Condition 'WITH_LIABILITY_SHIFT' not satisfied");
         $clientMock = $this->createHttpClientMock();
         $clientMock
             ->expects($this->once())
