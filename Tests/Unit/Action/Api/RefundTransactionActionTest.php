@@ -7,7 +7,7 @@ use Karser\PayumSaferpay\Request\Api\RefundTransaction;
 
 class RefundTransactionActionTest extends BaseApiActionTest
 {
-    protected $actionClass = RefundTransactionAction::class;
-    protected $requestClass = RefundTransaction::class;
+    protected string $actionClass = RefundTransactionAction::class;
+    protected string $requestClass = RefundTransaction::class;
 
 }

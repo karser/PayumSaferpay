@@ -10,32 +10,26 @@ use Payum\Core\HttpClientInterface;
 
 class Api
 {
-    const SPEC_VERSION = '1.10';
-    const PAYMENT_PAGE_INIT_PATH = '/Payment/v1/PaymentPage/Initialize';
-    const PAYMENT_PAGE_ASSERT_PATH = '/Payment/v1/PaymentPage/Assert';
-    const TRANSACTION_INIT_PATH = '/Payment/v1/Transaction/Initialize';
-    const TRANSACTION_AUTHORIZE_PATH = '/Payment/v1/Transaction/Authorize';
-    const TRANSACTION_AUTHORIZE_REFERENCED_PATH = '/Payment/v1/Transaction/AuthorizeReferenced';
-    const TRANSACTION_CAPTURE_PATH = '/Payment/v1/Transaction/Capture';
-    const TRANSACTION_REFUND_PATH = '/Payment/v1/Transaction/Refund';
-    const ALIAS_INSERT_PATH = '/Payment/v1/Alias/Insert';
-    const ALIAS_ASSERT_INSERT_PATH = '/Payment/v1/Alias/AssertInsert';
-    const ALIAS_DELETE_PATH = '/Payment/v1/Alias/Delete';
+    public const SPEC_VERSION = '1.10';
+    public const PAYMENT_PAGE_INIT_PATH = '/Payment/v1/PaymentPage/Initialize';
+    public const PAYMENT_PAGE_ASSERT_PATH = '/Payment/v1/PaymentPage/Assert';
+    public const TRANSACTION_INIT_PATH = '/Payment/v1/Transaction/Initialize';
+    public const TRANSACTION_AUTHORIZE_PATH = '/Payment/v1/Transaction/Authorize';
+    public const TRANSACTION_AUTHORIZE_REFERENCED_PATH = '/Payment/v1/Transaction/AuthorizeReferenced';
+    public const TRANSACTION_CAPTURE_PATH = '/Payment/v1/Transaction/Capture';
+    public const TRANSACTION_REFUND_PATH = '/Payment/v1/Transaction/Refund';
+    public const ALIAS_INSERT_PATH = '/Payment/v1/Alias/Insert';
+    public const ALIAS_ASSERT_INSERT_PATH = '/Payment/v1/Alias/AssertInsert';
+    public const ALIAS_DELETE_PATH = '/Payment/v1/Alias/Delete';
 
-    /**
-     * @var HttpClientInterface
-     */
-    protected $client;
+    protected HttpClientInterface $client;
 
-    /**
-     * @var MessageFactory
-     */
-    protected $messageFactory;
+    protected MessageFactory $messageFactory;
 
     /**
      * @var array
      */
-    protected $options = array(
+    protected array|ArrayObject $options = [
         'username' => null,
         'password' => null,
         'customerId' => null,
@@ -43,7 +37,7 @@ class Api
         'sandbox' => null,
         'interface' => null,
         'optionalParameters' => null,
-    );
+    ];
 
     public function __construct(array $options, HttpClientInterface $client, MessageFactory $messageFactory)
     {
@@ -72,7 +66,7 @@ class Api
             'RequestHeader' => [
                 'SpecVersion' => self::SPEC_VERSION,
                 'CustomerId' => $this->options['customerId'],
-                'RequestId' => uniqid(),
+                'RequestId' => uniqid('', true),
                 'RetryIndicator' => 0,
             ],
         ], $fields);

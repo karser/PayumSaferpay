@@ -7,6 +7,6 @@ use Karser\PayumSaferpay\Request\Api\AssertInsertAlias;
 
 class AssertInsertAliasActionTest extends BaseApiActionTest
 {
-    protected $actionClass = AssertInsertAliasAction::class;
-    protected $requestClass = AssertInsertAlias::class;
+    protected string $actionClass = AssertInsertAliasAction::class;
+    protected string $requestClass = AssertInsertAlias::class;
 }

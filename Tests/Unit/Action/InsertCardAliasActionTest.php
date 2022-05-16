@@ -44,7 +44,8 @@ class InsertCardAliasActionTest extends GenericActionTest
 
     public function provideSupportedRequests(): \Iterator
     {
-        function getRequest($details) {
+        function getRequest($details): InsertCardAlias
+        {
             $alias = new CardAlias();
             $alias->setDetails($details);
             $request = new InsertCardAlias(new Token());

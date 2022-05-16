@@ -9,7 +9,7 @@ class CardAlias extends CreditCard implements CardAliasInterface
     /**
      * @var array
      */
-    protected $details;
+    protected array $details;
 
 
     public function __construct()

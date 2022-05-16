@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php /** @noinspection PhpDeprecationInspection */
+declare(strict_types=1);
 
 namespace Karser\PayumSaferpay\Tests\Unit;
 
@@ -17,7 +18,7 @@ use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 class ApiTest extends TestCase
 {
     use ArraySubsetAsserts;
-    private $options = [];
+    private array $options = [];
 
     public function setUp(): void
     {
@@ -83,7 +84,7 @@ class ApiTest extends TestCase
     {
         $api = new Api($this->options, $this->createSuccessHttpClientStub(), $this->createHttpMessageFactory());
         $result = $api->initTransaction(['Payment' => [], 'ReturnUrls' => []]);
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'RequestHeader' => [
                 'SpecVersion' => '1.10',
                 'CustomerId' => 'test',
@@ -114,7 +115,7 @@ class ApiTest extends TestCase
             ]
         ]);
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'Payment' => [
                 'Amount' => [
                     'value' => 123,
@@ -146,7 +147,7 @@ class ApiTest extends TestCase
             'Alias' => ['Id' => 'aliasId'],
         ]);
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'Token' => 'this-is-token',
             'Condition' => 'WITH_LIABILITY_SHIFT',
             'RegisterAlias' => [
@@ -166,7 +167,7 @@ class ApiTest extends TestCase
         $api = new Api($this->options, $this->createSuccessHttpClientStub(), $this->createHttpMessageFactory());
         $result = $api->captureTransaction('transaction-id');
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'TransactionReference' => [
                 'TransactionId' => 'transaction-id',
             ],
@@ -186,7 +187,7 @@ class ApiTest extends TestCase
             ],
         ], 'transaction-id');
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'Refund' => [
                 'Amount' => [
                     'value' => 123,
@@ -212,7 +213,7 @@ class ApiTest extends TestCase
             ],
         ], 'transaction-id');
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'Payment' => [
                 'Amount' => [
                     'value' => 123,
@@ -248,7 +249,7 @@ class ApiTest extends TestCase
             ]
         ]);
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'Payment' => [
                 'Amount' => [
                     'value' => 123,
@@ -276,7 +277,7 @@ class ApiTest extends TestCase
         $api = new Api($this->options, $this->createSuccessHttpClientStub(), $this->createHttpMessageFactory());
         $result = $api->assertPaymentPage('token');
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'Token' => 'token',
         ], $result);
     }
@@ -294,7 +295,7 @@ class ApiTest extends TestCase
             'IdGenerator' => 'RANDOM',
         ], 'CARD');
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'RegisterAlias' => [
                 'IdGenerator' => 'RANDOM',
             ],
@@ -315,7 +316,7 @@ class ApiTest extends TestCase
         $api = new Api($this->options, $this->createSuccessHttpClientStub(), $this->createHttpMessageFactory());
         $result = $api->assertInsertAlias('token');
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'Token' => 'token',
         ], $result);
     }
@@ -328,7 +329,7 @@ class ApiTest extends TestCase
         $api = new Api($this->options, $this->createSuccessHttpClientStub(), $this->createHttpMessageFactory());
         $result = $api->deleteAlias('alias-id');
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'AliasId' => 'alias-id',
         ], $result);
     }
@@ -368,10 +369,7 @@ EOF;
         }
     }
 
-    /**
-     * @return MockObject|HttpClientInterface
-     */
-    protected function createSuccessHttpClientStub()
+    protected function createSuccessHttpClientStub(): MockObject|HttpClientInterface
     {
         $clientMock = $this->createHttpClientMock();
         $clientMock
@@ -383,10 +381,7 @@ EOF;
         return $clientMock;
     }
 
-    /**
-     * @return MockObject|HttpClientInterface
-     */
-    protected function createHttpClientMock()
+    protected function createHttpClientMock(): MockObject|HttpClientInterface
     {
         return $this->getMockBuilder(HttpClientInterface::class)->getMock();
     }

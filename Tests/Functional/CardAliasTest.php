@@ -30,10 +30,10 @@ class CardAliasTest extends AbstractSaferpayTest
 
         #assert redirected
         self::assertInstanceOf(HttpRedirect::class, $reply);
-        self::assertStringStartsWith('https://test.saferpay.com/', $iframeUrl = $reply->getUrl());
+        self::assertStringStartsWith('https://test.saferpay.com/', $reply->getUrl());
 
         # submit form
-        $iframeRedirect = $this->getThroughCheckout($reply->getUrl(), $formData = $this->composeFormData(self::CARD_SUCCESS, $cvc = false));
+        $iframeRedirect = $this->getThroughCheckout($reply->getUrl(), $formData = $this->composeFormData(self::CARD_SUCCESS, false));
 
         self::assertStringStartsWith(self::HOST, $iframeRedirect);
         self::assertStringContainsString('payum_token='.$token->getHash(), $iframeRedirect);

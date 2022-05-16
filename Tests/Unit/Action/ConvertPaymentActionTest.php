@@ -10,6 +10,7 @@ use Payum\Core\Request\Convert;
 use Payum\Core\Request\Generic;
 use Payum\Core\Tests\GenericActionTest;
 use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
+use Payum\Core\Security\TokenInterface;
 
 class ConvertPaymentActionTest extends GenericActionTest
 {
@@ -39,7 +40,7 @@ class ConvertPaymentActionTest extends GenericActionTest
     {
         yield [new $this->requestClass(new Payment(), 'array')];
         yield [new $this->requestClass($this->createMock(PaymentInterface::class), 'array')];
-        yield [new $this->requestClass(new Payment(), 'array', $this->createMock('Payum\Core\Security\TokenInterface'))];
+        yield [new $this->requestClass(new Payment(), 'array', $this->createMock(TokenInterface::class))];
 
     }
 

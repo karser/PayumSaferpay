@@ -9,8 +9,8 @@ use Karser\PayumSaferpay\Request\Api\AuthorizeTransaction;
 
 class AuthorizeTransactionActionTest extends BaseApiActionTest
 {
-    protected $actionClass = AuthorizeTransactionAction::class;
-    protected $requestClass = AuthorizeTransaction::class;
+    protected string $actionClass = AuthorizeTransactionAction::class;
+    protected string $requestClass = AuthorizeTransaction::class;
 
     /**
      * @test
