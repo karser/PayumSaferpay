@@ -7,10 +7,10 @@
 
 ## Introduction
 
-This plugin implements [Saferpay specification v1.10](https://saferpay.github.io/jsonapi/index.html), including all features from e-commerce and business licenses.
+This plugin implements [Saferpay specification v1.10](https://docs.saferpay.com/home/integration-guide/introduction), including all features from e-commerce and business licenses.
 Saferpay e-commerce license provides access to Payment Page interface only.
-Saferpay Business license provides Transaction Interface, [recurring payments](https://saferpay.github.io/sndbx/recurring.html), storing cards aliases and etc.
-For more detailed comparison please refer to [this](https://saferpay.github.io/sndbx/Interfaces.html) page.
+Saferpay Business license provides Transaction Interface, [recurring payments](https://docs.saferpay.com/home/integration-guide/licences-and-interfaces/transaction-interface/recurring-payments#3.-recurring-transaction), storing cards aliases and etc.
+For more detailed comparison please refer to [Licensing options](https://docs.saferpay.com/home/integration-guide/licences-and-interfaces#supported-api-methods-per-license) and [Supported payment methods per interface](https://docs.saferpay.com/home/integration-guide/licences-and-interfaces#supported-payment-methods-per-interface).
 
 Transaction Interface provides two options: an iframe (similar to Payment Page) and submitting the card data
 directly. The last option is available only if you are PCI compliant.
@@ -31,10 +31,10 @@ Here is how Transaction interface looks like:
 
 This plugin supports
 
-- [Payment Page interface](https://saferpay.github.io/sndbx/Integration_PP.html)
-- [Transaction interface](https://saferpay.github.io/sndbx/Integration_trx.html)
-- Recurring Payments [with the referenced transactions Method](https://saferpay.github.io/sndbx/recurring.html#recurring-referenced)
-- Recurring Payments [using an alias](https://saferpay.github.io/sndbx/recurring.html#recurring-alias)
+- [Payment Page interface](https://docs.saferpay.com/home/integration-guide/licences-and-interfaces/payment-page)
+- [Transaction interface](https://docs.saferpay.com/home/integration-guide/licences-and-interfaces/transaction-interface)
+- Recurring Payments [with the referenced transactions Method](https://docs.saferpay.com/home/integration-guide/licences-and-interfaces/transaction-interface/recurring-payments#recurring-payments-with-the-referenced-transactions-method)
+- Recurring Payments [using an alias](https://docs.saferpay.com/home/integration-guide/licences-and-interfaces/transaction-interface/recurring-payments#recurring-payments-using-an-alias)
 - Aliases support: Add and remove, Capture transaction
 - Specifying LIABILITY_SHIFT condition (payment will not be accepted if LiabilityShift is not possible)
 - Handling payment notification for Payment Page interface
@@ -68,7 +68,7 @@ You can use `General test account` credentials or create personal test account
 [here](https://www.six-payment-services.com/en/site/e-commerce/support/testaccount.html)
 
 ```yaml
-# config/packages/payum.yaml or app/config/config.yml
+# config/packages/payum.yaml or app/config/config.yml
 
 payum:
     gateways:
