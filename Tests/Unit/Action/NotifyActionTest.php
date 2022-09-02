@@ -13,7 +13,6 @@ class NotifyActionTest extends GenericActionTest
     protected $requestClass = Notify::class;
     protected $actionClass = NotifyAction::class;
 
-
     /**
      * @test
      */

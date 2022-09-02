@@ -23,7 +23,7 @@ Here is how Transaction interface looks like:
 
 ## Requirements
 
-- PHP 7.3+
+- PHP 8.0+
 - [Payum](https://github.com/Payum/Payum)
 - Optionally [PayumBundle](https://github.com/Payum/PayumBundle) and Symfony 3 or 4+
 
@@ -343,27 +343,27 @@ payum:
 ```
 
 #### Payment Page interface
-| Key                                   | Description |
-| --------------------------------------| ------------|
-| `config_set`                          | This parameter let you define your payment page config (PPConfig) by name. If this parameters is not set, your default PPConfig will be applied if available. When the PPConfig can't be found (e.g. wrong name), the Saferpay basic style will be applied to the payment page. |
-| `payment_methods`                     | Used to restrict the means of payment which are available to the payer for this transaction. If only one payment method id is set, the payment selection step will be skipped. |
-| `wallets`                             | Used to control if wallets should be enabled on the payment selection page and to go directly to the given wallet (if exactly one wallet is filled and PaymentMethods is not set). |
-| `notification_merchant_email`         | Email addresses to which a confirmation email will be sent to the merchants after successful authorizations. |
-| `notification_payer_email`            | Email address to which a confirmation email will be sent to the payer after successful authorizations. |
-| `styling_css_url`                     | Deprecated  |
-| `styling_content_security_enabled`    | When enabled, then ContentSecurity/SAQ-A is requested, which leads to the CSS being loaded from the saferpay server. |
-| `styling_theme`                       | This parameter let you customize the appearance of the displayed payment pages. Per default a lightweight responsive styling will be applied.If you don't want any styling use 'NONE'. |
-| `payer_note`                          | Text which will be printed on payer's debit note. Supported by SIX Acquiring. No guarantee that it will show up on the payer's debit note, because his bank has to support it too. Please note that maximum allowed characters are rarely supported. It's usually around 10-12. |
+| Key                                | Description                                                                                                                                                                                                                                                                     |
+|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `config_set`                       | This parameter let you define your payment page config (PPConfig) by name. If this parameters is not set, your default PPConfig will be applied if available. When the PPConfig can't be found (e.g. wrong name), the Saferpay basic style will be applied to the payment page. |
+| `payment_methods`                  | Used to restrict the means of payment which are available to the payer for this transaction. If only one payment method id is set, the payment selection step will be skipped.                                                                                                  |
+| `wallets`                          | Used to control if wallets should be enabled on the payment selection page and to go directly to the given wallet (if exactly one wallet is filled and PaymentMethods is not set).                                                                                              |
+| `notification_merchant_email`      | Email addresses to which a confirmation email will be sent to the merchants after successful authorizations.                                                                                                                                                                    |
+| `notification_payer_email`         | Email address to which a confirmation email will be sent to the payer after successful authorizations.                                                                                                                                                                          |
+| `styling_css_url`                  | Deprecated                                                                                                                                                                                                                                                                      |
+| `styling_content_security_enabled` | When enabled, then ContentSecurity/SAQ-A is requested, which leads to the CSS being loaded from the saferpay server.                                                                                                                                                            |
+| `styling_theme`                    | This parameter let you customize the appearance of the displayed payment pages. Per default a lightweight responsive styling will be applied.If you don't want any styling use 'NONE'.                                                                                          |
+| `payer_note`                       | Text which will be printed on payer's debit note. Supported by SIX Acquiring. No guarantee that it will show up on the payer's debit note, because his bank has to support it too. Please note that maximum allowed characters are rarely supported. It's usually around 10-12. |
 
 #### Transaction interface
-| Key                                   | Description |
-| --------------------------------------| ------------|
-| `config_set`                          | This parameter let you define your payment page config (PPConfig) by name. If this parameters is not set, your default PPConfig will be applied if available. When the PPConfig can't be found (e.g. wrong name), the Saferpay basic style will be applied to the payment page.  |
-| `payment_methods`                     | Used to restrict the means of payment which are available to the payer for this transaction. If only one payment method id is set, the payment selection step will be skipped. |
-| `styling_css_url`                     | Deprecated  |
-| `styling_content_security_enabled`    | When enabled, then ContentSecurity/SAQ-A is requested, which leads to the CSS being loaded from the saferpay server. |
-| `styling_theme`                       | This parameter let you customize the appearance of the displayed payment pages. Per default a lightweight responsive styling will be applied. If you don't want any styling use 'NONE'. |
-| `payer_note`                          | Text which will be printed on payer's debit note. Supported by SIX Acquiring. No guarantee that it will show up on the payer's debit note, because his bank has to support it too. Please note that maximum allowed characters are rarely supported. It's usually around 10-12. |
+| Key                                | Description                                                                                                                                                                                                                                                                     |
+|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `config_set`                       | This parameter let you define your payment page config (PPConfig) by name. If this parameters is not set, your default PPConfig will be applied if available. When the PPConfig can't be found (e.g. wrong name), the Saferpay basic style will be applied to the payment page. |
+| `payment_methods`                  | Used to restrict the means of payment which are available to the payer for this transaction. If only one payment method id is set, the payment selection step will be skipped.                                                                                                  |
+| `styling_css_url`                  | Deprecated                                                                                                                                                                                                                                                                      |
+| `styling_content_security_enabled` | When enabled, then ContentSecurity/SAQ-A is requested, which leads to the CSS being loaded from the saferpay server.                                                                                                                                                            |
+| `styling_theme`                    | This parameter let you customize the appearance of the displayed payment pages. Per default a lightweight responsive styling will be applied. If you don't want any styling use 'NONE'.                                                                                         |
+| `payer_note`                       | Text which will be printed on payer's debit note. Supported by SIX Acquiring. No guarantee that it will show up on the payer's debit note, because his bank has to support it too. Please note that maximum allowed characters are rarely supported. It's usually around 10-12. |
 
 ## Testing
 ```

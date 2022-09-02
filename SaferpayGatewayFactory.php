@@ -64,7 +64,7 @@ class SaferpayGatewayFactory extends GatewayFactory
         $prependActions[] = 'payum.action.insert_card_alias';
         $config['payum.prepend_actions'] = $prependActions;
 
-        if (false == $config['payum.api']) {
+        if (!$config['payum.api']) {
             $config['payum.default_options'] = [
                 'sandbox' => true,
             ];

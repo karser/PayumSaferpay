@@ -6,11 +6,7 @@ use Payum\Core\Model\CreditCard;
 
 class CardAlias extends CreditCard implements CardAliasInterface
 {
-    /**
-     * @var array
-     */
     protected array $details;
-
 
     public function __construct()
     {
@@ -24,7 +20,7 @@ class CardAlias extends CreditCard implements CardAliasInterface
     }
 
     /**
-     * @param array $details
+     * @param array|\Traversable $details
      */
     public function setDetails($details): void
     {

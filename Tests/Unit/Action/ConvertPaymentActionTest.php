@@ -18,7 +18,6 @@ class ConvertPaymentActionTest extends GenericActionTest
     protected $requestClass = Convert::class;
     protected $actionClass = ConvertPaymentAction::class;
 
-
     /**
      * @test
      */

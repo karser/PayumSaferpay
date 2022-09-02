@@ -26,9 +26,6 @@ class Api
 
     protected MessageFactory $messageFactory;
 
-    /**
-     * @var array
-     */
     protected array|ArrayObject $options = [
         'username' => null,
         'password' => null,
@@ -41,20 +38,24 @@ class Api
 
     public function __construct(array $options, HttpClientInterface $client, MessageFactory $messageFactory)
     {
-        $options = ArrayObject::ensureArrayObject($options);
-        $options->defaults($this->options);
-        $options->validateNotEmpty([
+        $optionsObj = ArrayObject::ensureArrayObject($options);
+        $optionsObj->defaults($this->options);
+        $optionsObj->validateNotEmpty([
             'username', 'password', 'customerId', 'terminalId',
         ]);
         if (!is_bool($options['sandbox'])) {
             throw new InvalidArgumentException('The boolean sandbox option must be set.');
         }
 
-        $this->options = $options;
+        $this->options = $optionsObj;
         $this->client = $client;
         $this->messageFactory = $messageFactory;
     }
 
+    /**
+     * @param array<string, mixed> $fields
+     * @return array<string, mixed>
+     */
     protected function doRequest(string $path, array $fields): array
     {
         $headers = [
@@ -89,7 +90,7 @@ class Api
         );
     }
 
-    private function parseResponse($content)
+    private function parseResponse(string $content): array
     {
         return json_decode($content, true);
     }

@@ -22,13 +22,13 @@ class ApiTest extends TestCase
 
     public function setUp(): void
     {
-        $this->options = array(
+        $this->options = [
             'username' => 'test',
             'password' => 'test',
             'customerId' => 'test',
             'terminalId' => 'test',
             'sandbox' => true,
-        );
+        ];
     }
 
     /**
@@ -369,7 +369,8 @@ EOF;
         }
     }
 
-    protected function createSuccessHttpClientStub(): MockObject|HttpClientInterface
+    /** @return MockObject&HttpClientInterface */
+    protected function createSuccessHttpClientStub()
     {
         $clientMock = $this->createHttpClientMock();
         $clientMock
@@ -381,7 +382,8 @@ EOF;
         return $clientMock;
     }
 
-    protected function createHttpClientMock(): MockObject|HttpClientInterface
+    /** @return MockObject&HttpClientInterface */
+    protected function createHttpClientMock()
     {
         return $this->getMockBuilder(HttpClientInterface::class)->getMock();
     }

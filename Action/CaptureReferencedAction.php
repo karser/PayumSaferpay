@@ -27,7 +27,7 @@ class CaptureReferencedAction implements ActionInterface, GatewayAwareInterface
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
-        /** @var $payment PaymentInterface */
+        /** @var PaymentInterface $payment */
         $payment = $request->getModel();
 
         $this->gateway->execute($status = new GetHumanStatus($payment));

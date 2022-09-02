@@ -23,7 +23,6 @@ use Payum\Core\Security\TokenInterface;
 use Payum\Core\Storage\FilesystemStorage;
 use Payum\Core\Storage\StorageInterface;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\BrowserKit\Exception\BadMethodCallException;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -42,19 +41,10 @@ abstract class AbstractSaferpayTest extends TestCase
     protected const CARD_SUCCESS = '9030101152000007';
     protected const CARD_FAILED = '9030100152000009'; //'9010100152000003';
 
-    /** @var Payum */
     protected Payum $payum;
-
-    /** @var GatewayInterface */
     protected GatewayInterface $gateway;
-
-    /** @var StorageInterface */
     protected StorageInterface $storage;
-
-    /** @var StorageInterface */
     protected StorageInterface $cardAliasStorage;
-
-    /** @var Client */
     protected Client $client;
 
     public function setUp(): void
@@ -91,9 +81,6 @@ abstract class AbstractSaferpayTest extends TestCase
     protected function submitForm(string $buttonSel, array $fieldValues = [], string $method = 'POST', array $serverParameters = []): Crawler
     {
         $crawler = $this->client->getCrawler();
-        if (null === $crawler) {
-            throw new BadMethodCallException(sprintf('The "request()" method must be called before "%s()".', __METHOD__));
-        }
 
         $buttonNode = $crawler->filter($buttonSel)->first();
         $form = $buttonNode->form($fieldValues, $method);
@@ -104,9 +91,6 @@ abstract class AbstractSaferpayTest extends TestCase
     protected function clickLink(string $linkSelector): Crawler
     {
         $crawler = $this->client->getCrawler();
-        if (null === $crawler) {
-            throw new BadMethodCallException(sprintf('The "request()" method must be called before "%s()".', __METHOD__));
-        }
 
         return $this->client->click($crawler->filter($linkSelector)->link());
     }
@@ -114,9 +98,6 @@ abstract class AbstractSaferpayTest extends TestCase
     protected function clickButton(string $buttonSelector): Crawler
     {
         $crawler = $this->client->getCrawler();
-        if (null === $crawler) {
-            throw new BadMethodCallException(sprintf('The "request()" method must be called before "%s()".', __METHOD__));
-        }
 
         $buttonNode = $crawler->filter($buttonSelector)->first();
         $form = $buttonNode->form([], 'POST');

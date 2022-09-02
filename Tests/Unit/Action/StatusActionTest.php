@@ -12,7 +12,6 @@ class StatusActionTest extends GenericActionTest
     protected $requestClass = GetHumanStatus::class;
     protected $actionClass = StatusAction::class;
 
-
     /**
      * @test
      */

@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "payum/core": "^1.7"
+        "payum/core": "^1.7.3"
     },
     "require-dev": {
         "fabpot/goutte": "^4.0",

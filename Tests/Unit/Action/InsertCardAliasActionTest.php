@@ -15,7 +15,6 @@ class InsertCardAliasActionTest extends GenericActionTest
     protected $requestClass = InsertCardAlias::class;
     protected $actionClass = InsertCardAliasAction::class;
 
-
     /**
      * @test
      */

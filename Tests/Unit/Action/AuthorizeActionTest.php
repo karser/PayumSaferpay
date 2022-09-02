@@ -13,7 +13,6 @@ class AuthorizeActionTest extends GenericActionTest
     protected $requestClass = Authorize::class;
     protected $actionClass = AuthorizeAction::class;
 
-
     /**
      * @test
      */
