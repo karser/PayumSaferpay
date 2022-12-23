@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['7.3', '7.4', '8.0', '8.1']
+        php: ['7.3', '7.4', '8.0', '8.1', '8.2']
       fail-fast: false
     name: PHPUnit (PHP ${{ matrix.php }})
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -33,7 +33,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache Composer
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -67,7 +67,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache Composer
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
