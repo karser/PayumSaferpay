@@ -68,14 +68,7 @@ abstract class AbstractSaferpayTest extends TestCase
             ->addGatewayFactory('saferpay', static function(array $config, GatewayFactoryInterface $coreGatewayFactory) {
                 return new SaferpayGatewayFactory($config, $coreGatewayFactory);
             })
-            ->addGateway(self::GATEWAY_NAME, [
-                'factory' => 'saferpay',
-                'username' => 'API_401860_80003225',
-                'password' => 'C-y*bv8346Ze5-T8',
-                'customerId' => '401860',
-                'terminalId' => '17795278',
-                'sandbox' => true,
-            ]);
+            ->addGateway(self::GATEWAY_NAME, $this->getGatewayConfig());
         $payum = $builder->getPayum();
 
         $this->payum = $payum;
@@ -86,6 +79,19 @@ abstract class AbstractSaferpayTest extends TestCase
         $client = new Client();
         $client->followRedirects(false);
         $this->client = $client;
+    }
+
+    protected function getGatewayConfig(): array
+    {
+        return [
+            'factory' => 'saferpay',
+                'username' => 'API_401860_80003225',
+                'password' => 'C-y*bv8346Ze5-T8',
+                'customerId' => '401860',
+                'terminalId' => '17795278',
+                'sandbox' => true,
+                'instantCapturing' => true
+        ];
     }
 
     protected function submitForm(string $buttonSel, array $fieldValues = [], string $method = 'POST', array $serverParameters = []): Crawler
