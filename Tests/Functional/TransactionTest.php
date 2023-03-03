@@ -2,7 +2,6 @@
 
 namespace Karser\PayumSaferpay\Tests\Functional;
 
-use Payum\Core\Reply\HttpRedirect;
 use Payum\Core\Request\GetHumanStatus;
 
 class TransactionTest extends AbstractSaferpayTest
@@ -44,31 +43,6 @@ class TransactionTest extends AbstractSaferpayTest
      */
     public function paymentStatus($formData, $formBehavior, string $expectedStatus): void
     {
-        $payment = $this->createPayment();
-
-        $token = $this->payum->getTokenFactory()->createCaptureToken(self::GATEWAY_NAME, $payment, 'done.php');
-        $this->payum->getHttpRequestVerifier()->invalidate($token); //no need to store token
-
-        # INIT transaction
-        /** @var HttpRedirect $reply */
-        $reply = $this->capture($token, $payment);
-        $this->assertStatus(GetHumanStatus::STATUS_PENDING, $payment);
-
-        #assert redirected
-        self::assertInstanceOf(HttpRedirect::class, $reply);
-        $iframeUrl = $reply->getUrl();
-        self::assertNotNull($iframeUrl);
-        self::assertStringStartsWith('https://test.saferpay.com/', $iframeUrl);
-
-        # submit form
-        $iframeRedirect = $this->getThroughCheckout($iframeUrl, $formData, $formBehavior);
-        self::assertNotNull($iframeRedirect);
-        self::assertStringStartsWith(self::HOST, $iframeRedirect);
-        self::assertStringContainsString('payum_token='.$token->getHash(), $iframeRedirect);
-        parse_str(parse_url($iframeRedirect, PHP_URL_QUERY) ?: '', $_GET);
-
-        # AUTHORIZE AND CAPTURE
-        $this->capture($token, $payment);
-        $this->assertStatus($expectedStatus, $payment);
+        $this->createPaymentWithStatus($formData, $formBehavior, $expectedStatus);
     }
 }

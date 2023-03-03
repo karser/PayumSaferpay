@@ -4,7 +4,7 @@ namespace Karser\PayumSaferpay\Tests\Functional;
 
 use Payum\Core\Request\GetHumanStatus;
 
-class TransactionWithoutInstantCapturingTest extends TransactionTest
+class TransactionWithoutInstantCapturingTest extends AbstractSaferpayTest
 {
     protected function getGatewayConfig(): array
     {
@@ -35,6 +35,6 @@ class TransactionWithoutInstantCapturingTest extends TransactionTest
      */
     public function paymentWithoutInstantCapturingStatus($formData, $formBehavior, string $expectedStatus): void
     {
-        $this->paymentStatus($formData, $formBehavior, $expectedStatus);
+        $this->createPaymentWithStatus($formData, $formBehavior, $expectedStatus);
     }
 }

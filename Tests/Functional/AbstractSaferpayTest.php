@@ -85,12 +85,12 @@ abstract class AbstractSaferpayTest extends TestCase
     {
         return [
             'factory' => 'saferpay',
-                'username' => 'API_401860_80003225',
-                'password' => 'C-y*bv8346Ze5-T8',
-                'customerId' => '401860',
-                'terminalId' => '17795278',
-                'sandbox' => true,
-                'instantCapturing' => true
+            'username' => 'API_401860_80003225',
+            'password' => 'C-y*bv8346Ze5-T8',
+            'customerId' => '401860',
+            'terminalId' => '17795278',
+            'sandbox' => true,
+            'instantCapturing' => true
         ];
     }
 
@@ -245,6 +245,36 @@ abstract class AbstractSaferpayTest extends TestCase
             $this->client->followRedirect();
         }
         return $this->client->getCrawler()->filter('a.btn-next')->first()->attr('href');
+    }
+
+    protected function createPaymentWithStatus($formData, $formBehavior, string $expectedStatus): void
+    {
+        $payment = $this->createPayment();
+
+        $token = $this->payum->getTokenFactory()->createCaptureToken(self::GATEWAY_NAME, $payment, 'done.php');
+        $this->payum->getHttpRequestVerifier()->invalidate($token); //no need to store token
+
+        # INIT transaction
+        /** @var HttpRedirect $reply */
+        $reply = $this->capture($token, $payment);
+        $this->assertStatus(GetHumanStatus::STATUS_PENDING, $payment);
+
+        #assert redirected
+        self::assertInstanceOf(HttpRedirect::class, $reply);
+        $iframeUrl = $reply->getUrl();
+        self::assertNotNull($iframeUrl);
+        self::assertStringStartsWith('https://test.saferpay.com/', $iframeUrl);
+
+        # submit form
+        $iframeRedirect = $this->getThroughCheckout($iframeUrl, $formData, $formBehavior);
+        self::assertNotNull($iframeRedirect);
+        self::assertStringStartsWith(self::HOST, $iframeRedirect);
+        self::assertStringContainsString('payum_token='.$token->getHash(), $iframeRedirect);
+        parse_str(parse_url($iframeRedirect, PHP_URL_QUERY) ?: '', $_GET);
+
+        # AUTHORIZE AND CAPTURE
+        $this->capture($token, $payment);
+        $this->assertStatus($expectedStatus, $payment);
     }
 
     protected function createCardAlias(array $details): CardAliasInterface
