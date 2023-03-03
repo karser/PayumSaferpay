@@ -93,7 +93,7 @@ class ApiTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotReturnInstantCapturingIfSetTrueInConstructor(): void
+    public function shouldNotReturnInstantCapturingIfSetFalseInConstructor(): void
     {
         $api = new Api(
             array_merge($this->options, ['instantCapturing' => false]),
