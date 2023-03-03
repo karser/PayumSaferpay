@@ -97,7 +97,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
         $this->gateway->execute(new AssertPaymentPage($model));
 
         $this->gateway->execute($status = new GetHumanStatus($model));
-        if ($status->isAuthorized()) {
+        if ($this->api->doInstantCapturing() && $status->isAuthorized()) {
             $this->gateway->execute(new CaptureTransaction($model));
         }
     }
@@ -128,7 +128,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
         $this->gateway->execute(new AuthorizeTransaction($model));
 
         $this->gateway->execute($status = new GetHumanStatus($model));
-        if ($status->isAuthorized()) {
+        if ($this->api->doInstantCapturing() && $status->isAuthorized()) {
             $this->gateway->execute(new CaptureTransaction($model));
         }
     }

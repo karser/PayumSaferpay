@@ -67,6 +67,7 @@ class SaferpayGatewayFactory extends GatewayFactory
         if (false == $config['payum.api']) {
             $config['payum.default_options'] = [
                 'sandbox' => true,
+                'instantCapturing' => true,
             ];
             $config->defaults($config['payum.default_options']);
             $config['payum.required_options'] = ['username', 'password', 'customerId', 'terminalId'];
