@@ -23,7 +23,7 @@ class SyncAction implements ActionInterface, GatewayAwareInterface
 
         $details = ArrayObject::ensureArrayObject($request->getModel());
 
-        if ($details->offsetExists('token')) {
+        if ($details->offsetExists('Token')) {
             $this->gateway->execute(new AssertPaymentPage($details));
         }
     }
