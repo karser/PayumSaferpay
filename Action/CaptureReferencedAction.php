@@ -2,10 +2,13 @@
 
 namespace Karser\PayumSaferpay\Action;
 
+use Karser\PayumSaferpay\Api;
 use Karser\PayumSaferpay\Request\Api\AuthorizeReferencedTransaction;
 use Karser\PayumSaferpay\Request\Api\CaptureTransaction;
 use Karser\PayumSaferpay\Request\CaptureReferenced;
 use Payum\Core\Action\ActionInterface;
+use Payum\Core\ApiAwareInterface;
+use Payum\Core\ApiAwareTrait;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\GatewayAwareInterface;
@@ -14,9 +17,20 @@ use Payum\Core\Model\PaymentInterface;
 use Payum\Core\Request\Convert;
 use Payum\Core\Request\GetHumanStatus;
 
-class CaptureReferencedAction implements ActionInterface, GatewayAwareInterface
+class CaptureReferencedAction implements ActionInterface, ApiAwareInterface, GatewayAwareInterface
 {
+    use ApiAwareTrait;
     use GatewayAwareTrait;
+
+    /**
+     * @var Api
+     */
+    protected $api;
+
+    public function __construct()
+    {
+        $this->apiClass = Api::class;
+    }
 
     /**
      * @param mixed $request
@@ -41,7 +55,10 @@ class CaptureReferencedAction implements ActionInterface, GatewayAwareInterface
 
         try {
             $this->gateway->execute(new AuthorizeReferencedTransaction($details));
-            $this->gateway->execute(new CaptureTransaction($details));
+            if ($this->api->doInstantCapturing()) {
+                $this->gateway->execute(new CaptureTransaction($details));
+            }
+
         } finally {
             $payment->setDetails($details);
         }

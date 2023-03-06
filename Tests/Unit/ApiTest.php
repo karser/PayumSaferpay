@@ -27,6 +27,7 @@ class ApiTest extends TestCase
             'customerId' => 'test',
             'terminalId' => 'test',
             'sandbox' => true,
+            'instantCapturing' => true,
         );
     }
 
@@ -74,6 +75,32 @@ class ApiTest extends TestCase
             $this->createHttpMessageFactory()
         );
         $this->assertEquals('https://www.saferpay.com/api', $api->getApiEndpoint());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnInstantCapturingIfSetTrueInConstructor(): void
+    {
+        $api = new Api(
+            array_merge($this->options, ['instantCapturing' => true]),
+            $this->createHttpClientMock(),
+            $this->createHttpMessageFactory()
+        );
+        $this->assertEquals(true, $api->doInstantCapturing());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotReturnInstantCapturingIfSetFalseInConstructor(): void
+    {
+        $api = new Api(
+            array_merge($this->options, ['instantCapturing' => false]),
+            $this->createHttpClientMock(),
+            $this->createHttpMessageFactory()
+        );
+        $this->assertEquals(false, $api->doInstantCapturing());
     }
 
     /**

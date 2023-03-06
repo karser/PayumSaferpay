@@ -229,6 +229,11 @@ class Api
         return $this->options['sandbox'] ? 'https://test.saferpay.com/api' : 'https://www.saferpay.com/api';
     }
 
+    public function doInstantCapturing(): bool
+    {
+        return $this->options['instantCapturing'] === true;
+    }
+
     public function getCaptureStrategy(): string
     {
         if (isset($this->options['interface']) && is_string($this->options['interface'])) {
