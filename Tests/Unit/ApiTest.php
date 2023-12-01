@@ -28,8 +28,8 @@ class ApiTest extends TestCase
             'customerId' => 'test',
             'terminalId' => 'test',
             'sandbox' => true,
-            'instantCapturing' => true,
-        );
+            'instantCapturing' => true
+        ];
     }
 
     /**
