@@ -7,8 +7,8 @@ use Karser\PayumSaferpay\Request\Api\InitTransaction;
 
 class InitTransactionActionTest extends BaseApiActionTest
 {
-    protected $actionClass = InitTransactionAction::class;
-    protected $requestClass = InitTransaction::class;
+    protected string $actionClass = InitTransactionAction::class;
+    protected string $requestClass = InitTransaction::class;
 
     /**
      * @test

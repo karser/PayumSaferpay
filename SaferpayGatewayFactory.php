@@ -64,7 +64,7 @@ class SaferpayGatewayFactory extends GatewayFactory
         $prependActions[] = 'payum.action.insert_card_alias';
         $config['payum.prepend_actions'] = $prependActions;
 
-        if (false == $config['payum.api']) {
+        if (!$config['payum.api']) {
             $config['payum.default_options'] = [
                 'sandbox' => true,
                 'instantCapturing' => true,
@@ -72,7 +72,7 @@ class SaferpayGatewayFactory extends GatewayFactory
             $config->defaults($config['payum.default_options']);
             $config['payum.required_options'] = ['username', 'password', 'customerId', 'terminalId'];
 
-            $config['payum.api'] = function (ArrayObject $config) {
+            $config['payum.api'] = static function (ArrayObject $config) {
                 $config->validateNotEmpty($config['payum.required_options']);
 
                 return new Api((array) $config, $config['payum.http_client'], $config['httplug.message_factory']);

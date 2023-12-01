@@ -13,7 +13,6 @@ class SyncActionTest extends GenericActionTest
     protected $requestClass = Sync::class;
     protected $actionClass = SyncAction::class;
 
-
     /**
      * @test
      */

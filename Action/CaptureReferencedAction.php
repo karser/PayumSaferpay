@@ -41,7 +41,7 @@ class CaptureReferencedAction implements ActionInterface, ApiAwareInterface, Gat
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
-        /** @var $payment PaymentInterface */
+        /** @var PaymentInterface $payment */
         $payment = $request->getModel();
 
         $this->gateway->execute($status = new GetHumanStatus($payment));

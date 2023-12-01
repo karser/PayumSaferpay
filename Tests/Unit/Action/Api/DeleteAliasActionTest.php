@@ -7,6 +7,6 @@ use Karser\PayumSaferpay\Request\Api\DeleteAlias;
 
 class DeleteAliasActionTest extends BaseApiActionTest
 {
-    protected $actionClass = DeleteAliasAction::class;
-    protected $requestClass = DeleteAlias::class;
+    protected string $actionClass = DeleteAliasAction::class;
+    protected string $requestClass = DeleteAlias::class;
 }

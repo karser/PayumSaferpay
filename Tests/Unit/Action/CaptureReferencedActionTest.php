@@ -14,7 +14,6 @@ class CaptureReferencedActionTest extends GenericActionTest
     protected $requestClass = CaptureReferenced::class;
     protected $actionClass = CaptureReferencedAction::class;
 
-
     /**
      * @test
      */

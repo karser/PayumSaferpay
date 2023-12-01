@@ -26,7 +26,7 @@ class InsertCardAliasAction implements ActionInterface, GatewayAwareInterface
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
-        /** @var $cardAlias CardAliasInterface */
+        /** @var CardAliasInterface $cardAlias */
         $cardAlias = $request->getModel();
 
         $details = ArrayObject::ensureArrayObject($cardAlias->getDetails());

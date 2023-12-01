@@ -23,7 +23,6 @@ use Payum\Core\Security\TokenInterface;
 use Payum\Core\Storage\FilesystemStorage;
 use Payum\Core\Storage\StorageInterface;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\BrowserKit\Exception\BadMethodCallException;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -42,20 +41,11 @@ abstract class AbstractSaferpayTest extends TestCase
     protected const CARD_SUCCESS = '9030101152000007';
     protected const CARD_FAILED = '9030100152000009'; //'9010100152000003';
 
-    /** @var Payum */
-    protected $payum;
-
-    /** @var GatewayInterface */
-    protected $gateway;
-
-    /** @var StorageInterface */
-    protected $storage;
-
-    /** @var StorageInterface */
-    protected $cardAliasStorage;
-
-    /** @var Client */
-    protected $client;
+    protected Payum $payum;
+    protected GatewayInterface $gateway;
+    protected StorageInterface $storage;
+    protected StorageInterface $cardAliasStorage;
+    protected Client $client;
 
     public function setUp(): void
     {
@@ -97,9 +87,6 @@ abstract class AbstractSaferpayTest extends TestCase
     protected function submitForm(string $buttonSel, array $fieldValues = [], string $method = 'POST', array $serverParameters = []): Crawler
     {
         $crawler = $this->client->getCrawler();
-        if (null === $crawler) {
-            throw new BadMethodCallException(sprintf('The "request()" method must be called before "%s()".', __METHOD__));
-        }
 
         $buttonNode = $crawler->filter($buttonSel)->first();
         $form = $buttonNode->form($fieldValues, $method);
@@ -110,9 +97,6 @@ abstract class AbstractSaferpayTest extends TestCase
     protected function clickLink(string $linkSelector): Crawler
     {
         $crawler = $this->client->getCrawler();
-        if (null === $crawler) {
-            throw new BadMethodCallException(sprintf('The "request()" method must be called before "%s()".', __METHOD__));
-        }
 
         return $this->client->click($crawler->filter($linkSelector)->link());
     }
@@ -120,9 +104,6 @@ abstract class AbstractSaferpayTest extends TestCase
     protected function clickButton(string $buttonSelector): Crawler
     {
         $crawler = $this->client->getCrawler();
-        if (null === $crawler) {
-            throw new BadMethodCallException(sprintf('The "request()" method must be called before "%s()".', __METHOD__));
-        }
 
         $buttonNode = $crawler->filter($buttonSelector)->first();
         $form = $buttonNode->form([], 'POST');
@@ -161,7 +142,7 @@ abstract class AbstractSaferpayTest extends TestCase
     {
         /** @var Payment $payment */
         $payment = $this->storage->create();
-        $payment->setNumber(uniqid());
+        $payment->setNumber(uniqid('', true));
         $payment->setCurrencyCode(self::CURRENCY);
         $payment->setTotalAmount(self::AMOUNT);
         $payment->setDescription(self::DESCRIPTION);
@@ -173,20 +154,20 @@ abstract class AbstractSaferpayTest extends TestCase
     protected function getThroughCheckout(string $url, array $formData, string $action = 'submit'): string
     {
         $this->client->request('GET', $url);
-        if (false !== strpos($url, '/vt2/api/PaymentPage')) {
+        if (str_contains($url, '/vt2/api/PaymentPage')) {
             $this->client->followRedirect();
             $this->client->submitForm('MasterCard');
             $this->client->followRedirect();
         }
 
         if (
-            false !== strpos($this->client->getCrawler()->getUri(), '/VT2/mpp/PaymentDataEntry/Index')
-            || false !== strpos($this->client->getCrawler()->getUri(), '/vt2/Api/Post')
-            || false !== strpos($this->client->getCrawler()->getUri(), '/vt2/api/register/card')
+            str_contains($this->client->getCrawler()->getUri(), '/VT2/mpp/PaymentDataEntry/Index')
+            || str_contains($this->client->getCrawler()->getUri(), '/vt2/Api/Post')
+            || str_contains($this->client->getCrawler()->getUri(), '/vt2/api/register/card')
         ) {
             if ($action === 'abort') {
                 $location = $this->client->getCrawler()->filter('button.btn-abort')->attr('formaction');
-                if (0 === strpos($location, self::HOST)) {
+                if (str_starts_with($location, self::HOST)) {
                     return $location;
                 }
                 $this->clickButton('button.btn-abort');
@@ -197,22 +178,22 @@ abstract class AbstractSaferpayTest extends TestCase
             $response = $this->client->getResponse();
             if ($response->getStatusCode() === 302) {
                 $location = $response->getHeader('Location');
-                if (0 === strpos($location, self::HOST)) {
+                if (str_starts_with($location, self::HOST)) {
                     return $location;
                 }
                 $this->client->followRedirect();
             }
         }
 
-        if (false !== strpos($this->client->getCrawler()->getUri(), '/VT2/mpp/PaymentDataEntry/Index')) {
+        if (str_contains($this->client->getCrawler()->getUri(), '/VT2/mpp/PaymentDataEntry/Index')) {
             self::assertSame(200, $this->client->getResponse()->getStatusCode());
             $this->client->submitForm( $action === 'submit' ? 'Buy' : 'Cancel');
             self::assertSame(302, $this->client->getResponse()->getStatusCode());
             $this->client->followRedirect();
         }
         if (
-            false !== strpos($this->client->getCrawler()->getUri(), '/VT2/mpp/ThreeDS/Index')
-            || false !== strpos($this->client->getCrawler()->getUri(), '/VT2/api/ThreeDs')
+            str_contains($this->client->getCrawler()->getUri(), '/VT2/mpp/ThreeDS/Index')
+            || str_contains($this->client->getCrawler()->getUri(), '/VT2/api/ThreeDs')
         ) {
             self::assertSame(200, $this->client->getResponse()->getStatusCode());
             $this->submitForm('[type="submit"]');
@@ -228,18 +209,18 @@ abstract class AbstractSaferpayTest extends TestCase
             $response = $this->client->getResponse();
             self::assertSame(302, $response->getStatusCode());
             $location = $response->getHeader('Location');
-            if (0 === strpos($location, self::HOST)) {
+            if (str_starts_with($location, self::HOST)) {
                 return $location;
             }
             $this->client->followRedirect();
         }
-        if (false !== strpos($this->client->getCrawler()->getUri(), '/VT2/mpp/Error/System')) {
+        if (str_contains($this->client->getCrawler()->getUri(), '/VT2/mpp/Error/System')) {
             $this->client->submitForm('Cancel');
 
             $response = $this->client->getResponse();
             self::assertSame(302, $response->getStatusCode());
             $location = $response->getHeader('Location');
-            if (0 === strpos($location, self::HOST)) {
+            if (str_starts_with($location, self::HOST)) {
                 return $location;
             }
             $this->client->followRedirect();
@@ -316,7 +297,7 @@ abstract class AbstractSaferpayTest extends TestCase
         $reply = $this->insertCardAlias($token, $cardAlias);
 
         # submit form
-        $iframeRedirect = $this->getThroughCheckout($reply->getUrl(), $this->composeFormData(self::CARD_SUCCESS, $cvc = false));
+        $iframeRedirect = $this->getThroughCheckout($reply->getUrl(), $this->composeFormData(self::CARD_SUCCESS, cvc: false));
         parse_str(parse_url($iframeRedirect, PHP_URL_QUERY), $_GET);
 
         $this->insertCardAlias($token, $cardAlias);

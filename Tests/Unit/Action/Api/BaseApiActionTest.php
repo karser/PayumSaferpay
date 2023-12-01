@@ -12,10 +12,10 @@ use PHPUnit\Framework\TestCase;
 
 abstract class BaseApiActionTest extends TestCase
 {
-    protected $actionClass;
-    protected $requestClass;
+    protected string $actionClass;
+    protected string $requestClass;
 
-    protected $model = [
+    protected array $model = [
         'Payment' => [
             'Amount' => [
                 'Value' => 123,
@@ -98,17 +98,12 @@ abstract class BaseApiActionTest extends TestCase
         $action->execute(new \stdClass());
     }
 
-    /**
-     * @return MockObject|Api
-     */
-    protected function createApiMock()
+    protected function createApiMock(): Api|MockObject
     {
         return $this->getMockBuilder(Api::class)->disableOriginalConstructor()->getMock();
     }
-    /**
-     * @return MockObject|GatewayInterface
-     */
-    protected function createGatewayMock()
+
+    protected function createGatewayMock(): GatewayInterface|MockObject
     {
         return $this->createMock(GatewayInterface::class);
     }

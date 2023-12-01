@@ -13,7 +13,6 @@ class RefundActionTest extends GenericActionTest
     protected $requestClass = Refund::class;
     protected $actionClass = RefundAction::class;
 
-
     /**
      * @test
      */

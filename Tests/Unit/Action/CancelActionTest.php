@@ -4,7 +4,6 @@ namespace Karser\PayumSaferpay\Tests\Unit\Action;
 
 use Karser\PayumSaferpay\Action\CancelAction;
 use Payum\Core\Action\ActionInterface;
-use Payum\Core\GatewayAwareInterface;
 use Payum\Core\Request\Cancel;
 use Payum\Core\Tests\GenericActionTest;
 
@@ -12,7 +11,6 @@ class CancelActionTest extends GenericActionTest
 {
     protected $requestClass = Cancel::class;
     protected $actionClass = CancelAction::class;
-
 
     /**
      * @test

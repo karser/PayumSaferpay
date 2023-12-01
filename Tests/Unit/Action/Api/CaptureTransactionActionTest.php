@@ -9,8 +9,8 @@ use Karser\PayumSaferpay\Request\Api\CaptureTransaction;
 
 class CaptureTransactionActionTest extends BaseApiActionTest
 {
-    protected $actionClass = CaptureTransactionAction::class;
-    protected $requestClass = CaptureTransaction::class;
+    protected string $actionClass = CaptureTransactionAction::class;
+    protected string $requestClass = CaptureTransaction::class;
 
     /**
      * @test

@@ -7,6 +7,6 @@ use Karser\PayumSaferpay\Request\Api\InitPaymentPage;
 
 class InitPaymentPageActionTest extends BaseApiActionTest
 {
-    protected $actionClass = InitPaymentPageAction::class;
-    protected $requestClass = InitPaymentPage::class;
+    protected string $actionClass = InitPaymentPageAction::class;
+    protected string $requestClass = InitPaymentPage::class;
 }

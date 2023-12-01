@@ -9,18 +9,16 @@ use Psr\Http\Message\ResponseInterface;
 final class SaferpayHttpException extends HttpException
 {
     // https://saferpay.github.io/jsonapi/index.html#errorhandling
-    const BEHAVIOR_ABORT = 'ABORT';
-    const BEHAVIOR_RETRY = 'RETRY';
-    const BEHAVIOR_RETRY_LATER = 'RETRY_LATER';
-    const BEHAVIOR_OTHER_MEANS = 'OTHER_MEANS';
+    public const BEHAVIOR_ABORT = 'ABORT';
+    public const BEHAVIOR_RETRY = 'RETRY';
+    public const BEHAVIOR_RETRY_LATER = 'RETRY_LATER';
+    public const BEHAVIOR_OTHER_MEANS = 'OTHER_MEANS';
 
-    /** @var array|null */
-    protected $data;
+    protected ?array $data = null;
+    protected ?string $info = null;
 
-    /** @var string|null */
-    protected $info;
-
-    public static function factory(RequestInterface $request, ResponseInterface $response) {
+    public static function factory(RequestInterface $request, ResponseInterface $response): SaferpayHttpException
+    {
         /** @var SaferpayHttpException $e */
         $e = parent::factory($request, $response);
         $contents = $response->getBody()->getContents();
