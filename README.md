@@ -326,7 +326,6 @@ class ConvertPaymentExtension implements ExtensionInterface
         $request->setResult((array) $result);
     }
 }
-
 ```
 
 ### Additional Configuration
